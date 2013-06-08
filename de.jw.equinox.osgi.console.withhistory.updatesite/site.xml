@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/de.jw.equinox.osgi.console.withhistory.feature_1.0.0.201306080751.jar" id="de.jw.equinox.osgi.console.withhistory.feature" version="1.0.0.201306080751" os="macosx" ws="cocoa" arch="x86,x86_64"/>
+</site>
