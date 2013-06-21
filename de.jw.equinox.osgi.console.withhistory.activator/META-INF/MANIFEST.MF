@@ -1,11 +1,13 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Activator
-Bundle-SymbolicName: de.jw.equinox.osgi.console.withhistory.activator
+Bundle-Name: Host OSGi Console with history Activator
+Bundle-SymbolicName: de.jw.equinox.osgi.console.withhistory.activator;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: de.jw.equinox.osgi.console.withhistory.activator.OSGiConsoleWithHistoryActivator
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
- org.eclipse.pde.ui
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.4
+Import-Package: org.eclipse.core.internal.registry,
+ org.eclipse.core.runtime,
+ org.eclipse.ui,
+ org.osgi.framework,
+ org.osgi.util.tracker
+Bundle-Activator: de.jw.equinox.osgi.console.withhistory.activator.OSGiConsoleWithHistoryActivator

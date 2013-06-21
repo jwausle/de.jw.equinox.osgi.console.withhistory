@@ -1,74 +1,37 @@
 package de.jw.equinox.osgi.console.withhistory.activator;
 
-import java.io.ByteArrayInputStream;
 
-import org.eclipse.core.internal.registry.ExtensionRegistry;
-import org.eclipse.core.runtime.ContributorFactoryOSGi;
-import org.eclipse.core.runtime.IContributor;
-import org.eclipse.core.runtime.IExtensionRegistry;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.ui.IStartup;
 import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.BundleEvent;
 
 /**
  * The activator class controls the plug-in life cycle
  */
-public class OSGiConsoleWithHistoryActivator extends AbstractUIPlugin {
-	/**
-	 * The constructor
-	 */
-	public OSGiConsoleWithHistoryActivator() {
-	}
-
+public class OSGiConsoleWithHistoryActivator implements BundleActivator, IStartup{
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
+	 * 
+	 * @see
+	 * org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext
+	 * )
 	 */
 	public void start(BundleContext context) throws Exception {
-		super.start(context);
+		System.out.println("\t OSGiConsoleWithHistoryActivator start:" + context.getBundle().getVersion());
 		
-		String osgiConsoleWithHistoryExtension_consoleFactories = 
-			"<plugin><extension point=\"org.eclipse.ui.console.consoleFactories\"> " +
-					"<consoleFactory " +
-		            	"class=\"org.eclipse.pde.internal.ui.util.OSGiConsoleWithHistoryFactory\" " + 
-		            	"icon=\"$nl$/icons/eview16/osgiconsole.gif\" " +
-		            	"label=\"Host OSGi ConsoleWithHistory\"> " + 
-		            "</consoleFactory> "+ 
-		   "</extension></plugin>";
-		
-		String osgiConsoleWithHistoryExtension_consolePageParticipants = 
-			"<plugin>" + 
-				"<extension point=\"org.eclipse.ui.console.consolePageParticipants\"> " +
-			      "<consolePageParticipant " +
-			            "class=\"org.eclipse.pde.internal.ui.util.OSGiConsoleWithHistoryPageParticipant\" " +
-			            "id=\"org.eclipse.pde.ui.OSGiConsoleParticipant2\"> " +
-			         "<enablement> " +
-			            "<test property=\"org.eclipse.ui.console.consoleTypeTest\" value=\"osgiConsole\"/> " +
-			         "</enablement> " +
-			      "</consolePageParticipant> " +
-			   "</extension>" +
-			 "</plugin>"; 
-		Bundle org_eclipse_pde_ui = Platform.getBundle("org.eclipse.pde.ui");;
-		Bundle bundle = org_eclipse_pde_ui;
-		addExtension(bundle, osgiConsoleWithHistoryExtension_consoleFactories);
-		addExtension(bundle, osgiConsoleWithHistoryExtension_consolePageParticipants);
+//		int stateMask = Bundle.STARTING | Bundle.STOPPING | Bundle.RESOLVED | Bundle.INSTALLED | Bundle.UNINSTALLED;
+		int stateMask = BundleEvent.INSTALLED| BundleEvent.LAZY_ACTIVATION | BundleEvent.RESOLVED| BundleEvent.STARTED| BundleEvent.STARTING| BundleEvent.STOPPED| BundleEvent.STOPPING| BundleEvent.UNINSTALLED| BundleEvent.UNRESOLVED | BundleEvent.UPDATED;
+		OSGiConsoleWithHistoryBundleTracker osGiConsoleWithHistoryBundleTracker = new OSGiConsoleWithHistoryBundleTracker(context, stateMask, null);
+		osGiConsoleWithHistoryBundleTracker.open();
 	}
-	
-	void addExtension(Bundle bundle, String xmlsrc) throws Exception {
 
-		// use Eclipse Dynamic Extension API
-		IExtensionRegistry reg = Platform.getExtensionRegistry();
+	public void stop(BundleContext context) throws Exception {
+		// doNothing.
+	}
 
-		Object key = ((ExtensionRegistry) reg).getTemporaryUserToken();
-
-		IContributor contributor = ContributorFactoryOSGi.createContributor(bundle);
-
-		ByteArrayInputStream is = new ByteArrayInputStream(xmlsrc.getBytes());
-		
-		if (!reg.addContribution(is, contributor, false, null, null, key)) {
-
-			throw new Exception("Error while adding contribution: " + xmlsrc);
-		}
+	public void earlyStartup() {
+		System.out.println("\t OSGiConsoleWithHistoryActivator early startup.");
 	}
 }

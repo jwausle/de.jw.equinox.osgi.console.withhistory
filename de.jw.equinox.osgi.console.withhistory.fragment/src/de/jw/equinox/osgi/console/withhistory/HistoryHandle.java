@@ -49,7 +49,7 @@ public final class HistoryHandle extends KeyAdapter {
 		} else if (SWT.ARROW_DOWN == e.keyCode) {
 			String lastSessionCommand = this.data.popOneBefore();
 			writeCommandToCosole(lastSessionCommand);
-		} 
+		}
 	}
 
 	/**
@@ -86,6 +86,7 @@ public final class HistoryHandle extends KeyAdapter {
 	}
 
 	public IPatternMatchListener getPatternMatchHandler() {
-		return new HistoryHandlePatternMatchListener(this.console, HistoryHandle.this);
+		return new HistoryHandlePatternMatchListener(this.console,
+				HistoryHandle.this);
 	}
 }
