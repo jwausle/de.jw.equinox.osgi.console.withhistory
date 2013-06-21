@@ -3,14 +3,14 @@ de.jw.equinox.osgi.console.withhistory
 
 Enhancement for org.eclipse.pde.ui.internal.util.OSGiConsole ( Host OSGi Console) with command history
 
---------------------------------------
-HOWTO-install:
-- 
 
---------------------------------------
+HOWTO-install:
+- install via update site:
+- install vial local-update-site: 
+
 HOWTO-contribute
 - contact me: jan.winter.leipzig@gmail.com
---------------------------------------
+
 - git clone ...
 - feel free to change 
 
