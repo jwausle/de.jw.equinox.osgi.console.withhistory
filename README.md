@@ -5,12 +5,13 @@ Enhancement for org.eclipse.pde.ui.internal.util.OSGiConsole ( Host OSGi Console
 
 
 HOWTO-install:
-- install via update site:
-- install vial local-update-site: 
+- download: https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory/archive/master.zip
+- unzip: master.zip
+- eclipse: install as local-update site 'file:/.../de.jw.equinox.osgi.console.withhistory/de.jw.equinox.osgi.console.withhistory.updatesite'
 
 HOWTO-contribute
 - contact me: jan.winter.leipzig@gmail.com
-- git clone ...
+- git clone https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory.git
 
 
 bundle-info: de.jw.equinox.osgi.console.withhistory.fragment
