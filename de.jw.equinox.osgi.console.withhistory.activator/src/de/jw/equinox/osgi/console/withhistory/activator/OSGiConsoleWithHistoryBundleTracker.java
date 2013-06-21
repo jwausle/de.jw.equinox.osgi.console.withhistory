@@ -20,11 +20,21 @@ public class OSGiConsoleWithHistoryBundleTracker extends BundleTracker {
 	public Object addingBundle(Bundle bundle, BundleEvent event) {
 		log.fine("OSGiConsoleWithHistoryBundleTracker addingBundle: "
 				+ bundle.getSymbolicName() + ", event: " + event);
-		if (bundle.getSymbolicName().equals("org.eclipse.pde.ui")) {
+		/*
+		 * if (bundle.getSymbolicName().equals("org.eclipse.pde.ui")) {
+		 * log.info(
+		 * "OSGiConsoleWithHistoryBundleTracker about extensions-registration."
+		 * );
+		 * 
+		 * OSGiConsoleWithHistoryPluginXmlRegistration.register();
+		 * 
+		 * log.info("OSGiConsoleWithHistoryBundleTracker registered extensions.")
+		 * ; } else
+		 */if (bundle.getSymbolicName().equals("org.eclipse.core.runtime")) {
 			log.info("OSGiConsoleWithHistoryBundleTracker about extensions-registration.");
-			
+
 			OSGiConsoleWithHistoryPluginXmlRegistration.register();
-			
+
 			log.info("OSGiConsoleWithHistoryBundleTracker registered extensions.");
 		}
 		return bundle;
