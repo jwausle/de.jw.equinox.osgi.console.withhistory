@@ -11,21 +11,21 @@ HOWTO-install:
 - eclipse: restart with '-clean'
 
 HOWTO-contribute
-- contact me: jan.winter.leipzig@gmail.com
+- contact me: jan.winter.leipzig+git@gmail.com
 - git clone https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory.git
 
 
-bundle-info: de.jw.equinox.osgi.console.withhistory.fragment
-- Contains implementation to react of Key-Events (arrow-up, arrow-down)
-- Some parts of code have to copied from org.eclipse.pde.ui.internal.console.OSGiConsole 
+Bundle-info: de.jw.equinox.osgi.console.withhistory.fragment
+- contains implementation to react of Key-Events (arrow-up, arrow-down)
+- some parts of code have to copied from org.eclipse.pde.ui.internal.console.OSGiConsole 
 
-bundle-info: de.jw.equinox.osgi.console.withhistory.activator
+Bundle-info: de.jw.equinox.osgi.console.withhistory.activator
 - contains the activation logic 
 - register/extend eclipse.extensionpoint (...) 
 - as a combination of (org.eclipse.ui.IStartup, org.osgi.util.tracker.BundleTracker)
 
-bundle-info: de.jw.equinox.osgi.console.withhistory.feature
+Bundle-info: de.jw.equinox.osgi.console.withhistory.feature
 - eclipse-pde-feature 
 
-bundle-info: de.jw.equinox.osgi.console.withhistory.updatesite
+Bundle-info: de.jw.equinox.osgi.console.withhistory.updatesite
 - last successful tested update site (for indigo and juno)
