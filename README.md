@@ -11,6 +11,7 @@ HOWTO-install:
 - local-unzip: master.zip
 - local-eclipse: install as local-update site 'file:/.../de.jw.equinox.osgi.console.withhistory/de.jw.equinox.osgi.console.withhistory.updatesite'
 - local- eclipse: restart with '-clean'
+
 SUCCE-insall: 
 ![show console/select-first-arrow-down-from-console-toolbar and find 'Host OSGiConsole with hsitory' beside 'Host OSGiConsole'](https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory/raw/master/img/screenshot-successful-installation.png)
 
