@@ -1,5 +1,8 @@
 package de.jw.equinox.osgi.console.withhistory;
 
+import java.util.Arrays;
+import java.util.logging.Logger;
+
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.console.IOConsole;
@@ -10,6 +13,9 @@ import org.eclipse.ui.console.TextConsole;
 public final class HistoryHandlePatternMatchListener implements
 		IPatternMatchListener {
 	private static final String OSGI_COMMAND_LINE_PATTERN = "osgi>.*\n[^\n]";
+	
+	private final Logger log = Logger.getLogger(HistoryHandlePatternMatchListener.class.getName());
+	
 	private final HistoryHandle ioConsoleWithHistoryHandle;
 	private IOConsole ioConsole;
 
@@ -32,7 +38,7 @@ public final class HistoryHandlePatternMatchListener implements
 			ioConsoleWithHistoryHandle.data.add(command);
 		}
 		ioConsoleWithHistoryHandle.data.clearSessionStack();
-		System.out.println("enter:  " + ioConsoleWithHistoryHandle.data);
+		log.fine("enter:  " + ioConsoleWithHistoryHandle.data);
 	}
 
 	private String safeGetNextPatternMatchFromDocument(PatternMatchEvent event, IDocument document) {
@@ -42,7 +48,7 @@ public final class HistoryHandlePatternMatchListener implements
 		try {
 			command = document.get(lineOffset, lineLength);
 		} catch (BadLocationException e) {
-			e.printStackTrace();
+			log.severe(e.getMessage() + ", stacktrace:\n" + Arrays.toString(e.getStackTrace()));
 		}
 		
 		int indexOf = command.lastIndexOf("osgi>");

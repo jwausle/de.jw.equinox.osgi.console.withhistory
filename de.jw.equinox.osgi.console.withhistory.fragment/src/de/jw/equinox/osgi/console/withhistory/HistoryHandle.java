@@ -3,6 +3,8 @@
  */
 package de.jw.equinox.osgi.console.withhistory;
 
+import java.util.logging.Logger;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.KeyAdapter;
@@ -14,7 +16,8 @@ import org.eclipse.ui.console.IPatternMatchListener;
  * @author wij1si
  */
 public final class HistoryHandle extends KeyAdapter {
-
+	private final Logger log = Logger.getLogger(HistoryHandle.class.getName());
+	
 	/** Ref to io console. */
 	private final IOConsole console;
 	/** Ref to text widget. */
@@ -75,7 +78,7 @@ public final class HistoryHandle extends KeyAdapter {
 
 		this.styledTextEditArea.resetCharCount(this.styledText, command);
 
-		System.out.println("write:  " + this.data);
+		log.fine("write:  " + this.data);
 	}
 
 	/**
