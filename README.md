@@ -9,7 +9,7 @@ HOWTO-install:
 - unzip: master.zip
 - eclipse: install as local-update site 'file:/.../de.jw.equinox.osgi.console.withhistory/de.jw.equinox.osgi.console.withhistory.updatesite'
 - eclipse: restart with '-clean'
-![show console/select-first-arrow-down-from-console-toolbar and find 'Host OSGiConsole with hsitory' beside 'Host OSGiConsole'][./img/screenshot-successful-installation.jpg]
+![show console/select-first-arrow-down-from-console-toolbar and find 'Host OSGiConsole with hsitory' beside 'Host OSGiConsole'](https://./img/screenshot-successful-installation.png)
 
 HOWTO-contribute
 - contact me: jan.winter.leipzig+git@gmail.com
