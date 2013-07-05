@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="de.jw.equinox.osgi.console.withhistory.feature"
+      id="de.jw.support.org.eclipse.pde.ui.feature"
       label="Host OSGi Console with history Feature"
       version="1.0.0.qualifier">
 
