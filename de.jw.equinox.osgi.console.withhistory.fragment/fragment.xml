@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<fragment>
+   <extension
+         point="org.eclipse.ui.console.consoleFactories">
+      <consoleFactory
+            class="org.eclipse.pde.internal.ui.util.OSGiConsoleWithHistoryFactory"
+            icon="$nl$/icons/eview16/osgiconsole.gif"
+            label="Host OSGi ConsoleWithHistory">
+      </consoleFactory>
+   </extension>
+   <extension
+         point="org.eclipse.ui.console.consolePageParticipants">
+      <consolePageParticipant
+            class="org.eclipse.pde.internal.ui.util.OSGiConsoleWithHistoryPageParticipant"
+            id="org.eclipse.pde.ui.OSGiConsoleParticipant2">
+         <enablement></enablement>
+      </consolePageParticipant>
+   </extension>
+
+</fragment>

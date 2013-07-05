@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Host OSGi Console with history impl
-Bundle-SymbolicName: de.jw.equinox.osgi.console.withhistory.fragment
+Bundle-SymbolicName: de.jw.equinox.osgi.console.withhistory.fragment;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Fragment-Host: org.eclipse.pde.ui
 Bundle-ActivationPolicy: lazy

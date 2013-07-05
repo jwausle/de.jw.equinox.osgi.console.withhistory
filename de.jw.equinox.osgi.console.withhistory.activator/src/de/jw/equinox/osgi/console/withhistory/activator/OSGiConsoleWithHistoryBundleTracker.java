@@ -1,5 +1,6 @@
 package de.jw.equinox.osgi.console.withhistory.activator;
 
+import java.util.LinkedList;
 import java.util.logging.Logger;
 
 import org.osgi.framework.Bundle;
@@ -18,8 +19,8 @@ public class OSGiConsoleWithHistoryBundleTracker extends BundleTracker {
 	}
 
 	public Object addingBundle(Bundle bundle, BundleEvent event) {
-		log.fine("OSGiConsoleWithHistoryBundleTracker addingBundle: "
-				+ bundle.getSymbolicName() + ", event: " + event);
+		log.info("\tbundle.tracke.addingBundle: " + bundle.getSymbolicName()
+				+ ", event: " + event);
 		/*
 		 * if (bundle.getSymbolicName().equals("org.eclipse.pde.ui")) {
 		 * log.info(
@@ -30,12 +31,24 @@ public class OSGiConsoleWithHistoryBundleTracker extends BundleTracker {
 		 * 
 		 * log.info("OSGiConsoleWithHistoryBundleTracker registered extensions.")
 		 * ; } else
-		 */if (bundle.getSymbolicName().equals("org.eclipse.core.runtime")) {
-			log.info("OSGiConsoleWithHistoryBundleTracker about extensions-registration.");
+		 */if (new LinkedList() {
+			/** to remove warning */
+			private static final long serialVersionUID = -1631072792318124579L;
 
-			OSGiConsoleWithHistoryPluginXmlRegistration.register();
+			public LinkedList init() {
+				add("org.eclipse.core.runtime");
+				add("org.eclipse.ui.console");
+				add("org.eclipse.ui.workbench");
+				return this;
+			}
+		}.init().contains(bundle.getSymbolicName()) || true) {
+			if (!OSGiConsoleWithHistoryPluginXmlRegistration.isRegistered()) {
+				log.info("OSGiConsoleWithHistoryBundleTracker about extensions-registration.");
 
-			log.info("OSGiConsoleWithHistoryBundleTracker registered extensions.");
+				OSGiConsoleWithHistoryPluginXmlRegistration.register();
+
+				log.info("OSGiConsoleWithHistoryBundleTracker registered extensions.");
+			}
 		}
 		return bundle;
 	}

@@ -3,7 +3,7 @@
    <description name="Host OSGi Console with history" url="https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory.updatesite">
       Adaptation of Host OSGi Console with command history (arrow-up get last command iterative).
    </description>
-   <feature url="features/de.jw.equinox.osgi.console.withhistory.feature_1.0.0.201306211448.jar" id="de.jw.equinox.osgi.console.withhistory.feature" version="1.0.0.201306211448">
+   <feature url="features/de.jw.equinox.osgi.console.withhistory.feature_1.0.0.201307050910.jar" id="de.jw.equinox.osgi.console.withhistory.feature" version="1.0.0.201307050910">
       <category name="Console"/>
    </feature>
    <category-def name="Console" label="Host OSGi Console with history">

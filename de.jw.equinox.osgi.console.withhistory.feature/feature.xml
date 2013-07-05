@@ -98,19 +98,8 @@ This Agreement is governed by the laws of the State of New York and the intellec
    </url>
 
    <requires>
-      <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.pde.ui"/>
-      <import plugin="org.eclipse.equinox.registry"/>
-      <import plugin="org.eclipse.ui.ide"/>
-      <import plugin="org.eclipse.osgi"/>
    </requires>
-
-   <plugin
-         id="de.jw.equinox.osgi.console.withhistory.activator"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
 
    <plugin
          id="de.jw.equinox.osgi.console.withhistory.fragment"
