@@ -4,7 +4,7 @@ import org.eclipse.swt.custom.StyledText;
 import org.eclipse.ui.console.IConsoleView;
 import org.eclipse.ui.part.IPageBookViewPage;
 
-import de.jw.equinox.osgi.console.withhistory.HistoryHandle;
+import de.jw.support.org.eclipse.pde.ui.HistoryHandle;
 
 
 

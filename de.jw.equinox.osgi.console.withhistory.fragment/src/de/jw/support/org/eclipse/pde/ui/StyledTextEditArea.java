@@ -1,7 +1,7 @@
 /*
  * Copyright (c) Robert Bosch GmbH. All rights reserved.
  */
-package de.jw.equinox.osgi.console.withhistory;
+package de.jw.support.org.eclipse.pde.ui;
 
 import org.eclipse.swt.custom.StyledText;
 

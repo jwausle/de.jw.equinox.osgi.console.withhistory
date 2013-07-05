@@ -1,4 +1,4 @@
-package de.jw.equinox.osgi.console.withhistory;
+package de.jw.support.org.eclipse.pde.ui;
 
 import java.util.Arrays;
 import java.util.logging.Logger;
