@@ -12,7 +12,7 @@ import org.eclipse.ui.console.TextConsole;
 
 public final class HistoryHandlePatternMatchListener implements
 		IPatternMatchListener {
-	private static final String OSGI_COMMAND_LINE_PATTERN = "osgi>.*\n[^\n]";
+	private static final String OSGI_COMMAND_LINE_PATTERN = "osgi>.*(\n[^\n]|\r[^\r])";
 	
 	private final Logger log = Logger.getLogger(HistoryHandlePatternMatchListener.class.getName());
 	
