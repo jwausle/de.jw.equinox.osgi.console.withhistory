@@ -102,10 +102,12 @@ This Agreement is governed by the laws of the State of New York and the intellec
    </requires>
 
    <plugin
-         id="de.jw.equinox.osgi.console.withhistory.fragment"
+         id="de.jw.support.org.eclipse.pde.ui.fragment"
+         os="macosx,win32"
+         arch="x86,x86_64"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.0.0.qualifier"
          fragment="true"
          unpack="false"/>
 
