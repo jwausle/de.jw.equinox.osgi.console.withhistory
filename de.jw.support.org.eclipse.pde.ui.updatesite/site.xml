@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<site>
+<site
+      mirrorsURL="https://www.dropbox.com/sh/b2ipkj7etzv8dtz/04TILrf8ZN/update-sites/de.jw.support.org.eclipse.pde.ui.updatesite">
    <description name="Host OSGi Console with history" url="https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory.updatesite">
       Adaptation of Host OSGi Console with command history (arrow-up get last command iterative).
    </description>
-   <feature url="features/de.jw.support.org.eclipse.pde.ui.feature_1.0.0.201307201027.jar" id="de.jw.support.org.eclipse.pde.ui.feature" version="1.0.0.201307201027">
+   <feature url="features/de.jw.support.org.eclipse.pde.ui.feature_1.0.0.201307201113.jar" id="de.jw.support.org.eclipse.pde.ui.feature" version="1.0.0.201307201113">
       <category name="Console"/>
    </feature>
    <category-def name="Console" label="Host OSGi Console with history">
