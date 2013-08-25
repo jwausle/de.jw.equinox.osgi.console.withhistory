@@ -5,7 +5,10 @@ Enhancement for org.eclipse.pde.ui.internal.util.OSGiConsole ( Host OSGi Console
 
 
 ## HOWTO-install:
-- update-site: https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory/raw/master/de.jw.support.org.eclipse.pde.ui.updatesite
+- update-site: 
+
+https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory/raw/master/de.jw.support.org.eclipse.pde.ui.updatesite/update-site/1.0.0
+
 
 OR
 
