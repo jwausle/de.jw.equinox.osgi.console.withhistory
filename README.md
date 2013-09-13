@@ -7,22 +7,29 @@ Enhancement for org.eclipse.pde.ui.internal.util.OSGiConsole ( Host OSGi Console
 ## HOWTO-install:
 - update-site: 
 
+```
 https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory/raw/master/de.jw.support.org.eclipse.pde.ui.updatesite/update-site/1.0.0
+```
 
 - after install on mac 'eclipse -clean' start requiered 
 
 OR
 
-- download: https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory/archive/master.zip
-- unzip: master.zip
-- eclipse: install as local-update site 'file:/.../de.jw.equinox.osgi.console.withhistory/de.jw.support.org.eclipse.pde.ui.updatesite'
-- eclipse: restart 
+```
+download: https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory/archive/master.zip
+unzip: master.zip
+eclipse: install as local-update site 'file:/.../de.jw.equinox.osgi.console.withhistory/de.jw.support.org.eclipse.pde.ui.updatesite'
+eclipse: restart 
+```
 
 ![show console/select-first-arrow-down-from-console-toolbar and find 'Host OSGiConsoleWithHistory' beside 'Host OSGiConsole'](https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory/raw/master/img/screenshot-successful-installation.png)
 
 ## HOWTO-contribute
 - contact me: jan.winter.leipzig+git@gmail.com
-- git clone https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory.git
+
+```
+git clone https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory.git
+```
 
 
 **Bundle-info**: de.jw.support.org.eclipse.pde.ui.fragment
