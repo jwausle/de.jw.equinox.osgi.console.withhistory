@@ -17,7 +17,7 @@ import org.eclipse.ui.console.IPatternMatchListener;
  */
 public final class HistoryHandle extends KeyAdapter {
 	private final Logger log = Logger.getLogger(HistoryHandle.class.getName());
-	
+
 	/** Ref to io console. */
 	private final IOConsole console;
 	/** Ref to text widget. */
@@ -26,6 +26,7 @@ public final class HistoryHandle extends KeyAdapter {
 	private final StyledTextEditArea styledTextEditArea;
 	/** Ref to [command] list and last added command */
 	final HistoryCommandStack data = new HistoryCommandStack();
+	final Class dataGuard = HistoryCommandStack.class;
 
 	/**
 	 * @param consoleRef
@@ -44,14 +45,16 @@ public final class HistoryHandle extends KeyAdapter {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void keyReleased(final KeyEvent e) {
+	public synchronized void keyReleased(final KeyEvent e) {
 		// super.keyReleased(e);
-		if (SWT.ARROW_UP == e.keyCode) {
-			String lastCommand = this.data.popFromHistory();
-			writeCommandToCosole(lastCommand);
-		} else if (SWT.ARROW_DOWN == e.keyCode) {
-			String lastSessionCommand = this.data.popOneBefore();
-			writeCommandToCosole(lastSessionCommand);
+		synchronized (dataGuard) {
+			if (SWT.ARROW_UP == e.keyCode) {
+				String lastCommand = this.data.popFromHistory();
+				writeCommandToCosole(lastCommand);
+			} else if (SWT.ARROW_DOWN == e.keyCode) {
+				String lastSessionCommand = this.data.popOneBefore();
+				writeCommandToCosole(lastSessionCommand);
+			}
 		}
 	}
 
@@ -59,7 +62,7 @@ public final class HistoryHandle extends KeyAdapter {
 	 * @param command
 	 *            no null command.
 	 */
-	private void writeCommandToCosole(final String command) {
+	private synchronized void writeCommandToCosole(final String command) {
 		if (command == null) {
 			return;
 		}
@@ -70,9 +73,14 @@ public final class HistoryHandle extends KeyAdapter {
 				.getDeleteCommandLength(consoleCharCountActual);
 
 		// delete last command in console.
-		this.styledText.replaceTextRange(
-				this.styledTextEditArea.consoleCharCountBeforeAdding, length,
-				"");
+		try {
+			this.styledText.replaceTextRange(
+					this.styledTextEditArea.consoleCharCountBeforeAdding,
+					length, "");
+		} catch (IllegalArgumentException e) {
+			log.fine("Expected exception by replaceTextRange() catched: "
+					+ e.getMessage());
+		}
 
 		this.styledText.setText(command);
 

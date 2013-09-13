@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/de.jw.support.org.eclipse.pde.ui.feature_1.0.0.qualifier.jar" id="de.jw.support.org.eclipse.pde.ui.feature" version="1.0.0.qualifier">
+   <feature url="features/de.jw.support.org.eclipse.pde.ui.feature_1.0.1.qualifier.jar" id="de.jw.support.org.eclipse.pde.ui.feature" version="1.0.1.qualifier">
       <category name="Host OSGi ConsoleWithHistory.ID"/>
    </feature>
    <category-def name="Host OSGi ConsoleWithHistory.ID" label="Host OSGi ConsoleWithHistory"/>
