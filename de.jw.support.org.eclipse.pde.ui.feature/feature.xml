@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="de.jw.support.org.eclipse.pde.ui.feature"
-      label="Host OSGi Console with history Feature"
-      version="1.0.1.qualifier">
+      label="IOConsole with history Feature"
+      version="2.0.0.qualifier">
 
    <description url="https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory/blob/master/README.md">
       Enhance Host OSGi Console with a command history (arrow up/down
@@ -102,12 +102,12 @@ This Agreement is governed by the laws of the State of New York and the intellec
    </requires>
 
    <plugin
-         id="de.jw.support.org.eclipse.pde.ui.fragment"
-         os="macosx,win32"
+         id="de.jwausle.support.org.eclipse.ui.console.fragment"
+         os="macosx,win32,linux"
          arch="x86,x86_64"
          download-size="0"
          install-size="0"
-         version="1.0.1.qualifier"
+         version="2.0.0.qualifier"
          fragment="true"
          unpack="false"/>
 

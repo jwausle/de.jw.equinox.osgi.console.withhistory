@@ -1,11 +1,10 @@
-package de.jw.support.org.eclipse.pde.ui;
+package de.jwausle.support.org.eclipse.ui.console.internal;
 
 import java.util.Arrays;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.eclipse.core.internal.resources.RegexFileInfoMatcher;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.console.IOConsole;

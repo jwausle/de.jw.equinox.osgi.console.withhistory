@@ -4,8 +4,8 @@
    <extension
          point="org.eclipse.ui.console.consolePageParticipants">
       <consolePageParticipant
-            class="de.jw.support.org.eclipse.ui.console.IOConsolePageParticipantWithHistory"
-            id="de.jw.support.org.eclipse.ui.console.IOConsolePageParticipantWithHistory">
+            class="de.jwausle.support.org.eclipse.ui.console.internal.IOConsolePageParticipantWithHistory"
+            id="de.jw.support.org.eclipse.ui.console.internal.IOConsolePageParticipantWithHistory">
          <enablement></enablement>
       </consolePageParticipant>
    </extension>

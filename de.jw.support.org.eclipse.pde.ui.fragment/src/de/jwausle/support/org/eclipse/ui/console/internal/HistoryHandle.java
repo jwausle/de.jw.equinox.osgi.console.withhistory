@@ -1,7 +1,7 @@
 /*
  * Copyright (c) Robert Bosch GmbH. All rights reserved.
  */
-package de.jw.support.org.eclipse.pde.ui;
+package de.jwausle.support.org.eclipse.ui.console.internal;
 
 import java.util.logging.Logger;
 

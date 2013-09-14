@@ -1,4 +1,4 @@
-package de.jw.support.org.eclipse.ui.console;
+package de.jwausle.support.org.eclipse.ui.console.internal;
 
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.ui.console.IConsole;
@@ -6,8 +6,6 @@ import org.eclipse.ui.console.IConsolePageParticipant;
 import org.eclipse.ui.console.IOConsole;
 import org.eclipse.ui.part.IPageBookViewPage;
 
-import de.jw.support.org.eclipse.pde.ui.HistoryHandle;
-import de.jw.support.org.eclipse.pde.ui.HistoryHandlePatternMatchListener;
 
 public class IOConsolePageParticipantWithHistory implements
 		IConsolePageParticipant {

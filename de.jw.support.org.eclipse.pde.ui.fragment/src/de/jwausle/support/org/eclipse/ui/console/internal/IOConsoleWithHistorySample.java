@@ -1,7 +1,7 @@
 /*
  * Copyright (c) Robert Bosch GmbH. All rights reserved.
  */
-package de.jw.support.org.eclipse.pde.ui;
+package de.jwausle.support.org.eclipse.ui.console.internal;
 
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.swt.custom.StyledText;

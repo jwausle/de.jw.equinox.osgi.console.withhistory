@@ -1,8 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Host OSGi Console with history impl
-Bundle-SymbolicName: de.jw.support.org.eclipse.pde.ui.fragment;singleton:=true
-Bundle-Version: 1.0.1.qualifier
-Fragment-Host: org.eclipse.pde.ui
+Bundle-Name: IOConsole with history impl
+Bundle-SymbolicName: de.jwausle.support.org.eclipse.ui.console.fragment;singleton:=true
+Bundle-Version: 2.0.0.qualifier
+Fragment-Host: org.eclipse.ui.console
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.4
+
