@@ -16,7 +16,7 @@ https://github.com/jwausle/de.jwausle.support.org.eclipse.ui.console/raw/master/
 OR
 
 ```
-download: https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory/archive/master.zip
+download: https://github.com/jwausle/de.jwausle.support.org.eclipse.ui.console/archive/master.zip
 unzip: master.zip
 eclipse: install as local-update site 'file:/.../de.jw.equinox.osgi.console.withhistory/de.jw.support.org.eclipse.pde.ui.updatesite'
 eclipse: restart 
@@ -28,17 +28,16 @@ eclipse: restart
 - contact me: jan.winter.leipzig+git@gmail.com
 
 ```
-git clone https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory.git
+git clone https://github.com/jwausle/de.jwausle.support.org.eclipse.ui.console.git
 ```
 
 
-**Bundle-info**: de.jw.support.org.eclipse.pde.ui.fragment
+**Bundle-info**: de.jwausle.support.org.eclipse.ui.console.fragment
 - contains implementation to react of Key-Events (arrow-up, arrow-down)
 - some parts of code have to copied from org.eclipse.pde.ui.internal.console.OSGiConsole 
 
-**Bundle-info**: de.jw.support.org.eclipse.pde.ui.feature
+**Bundle-info**: de.jwausle.support.org.eclipse.ui.console.feature
 - eclipse-pde-feature 
 
-**Bundle-info**: de.jw.support.org.eclipse.pde.ui.updatesite
-- last successful tested update site (for indigo and juno)
-- to recompile: delete all(without site.xml), edit site.xml(replace version feature_x.x.x.bla with feature_x.x.x.qualifier), build
+**Bundle-info**: de.jwausle.support.org.eclipse.ui.console.updatesite
+- last successful tested update site (for indigo and juno and luna)
