@@ -12,7 +12,8 @@
 
 2) Export 'de.jw.support.org.eclipse.ui.console.feature' as 'Deployable Feature'
 - [Destination]/Directory: ${de.jwausle.support.org.eclipse.pde.ui.updatesite}/update-site/X.Y.Z
-- [Options]/Catagorize Repository: ${de.jwausle.support.org.eclipse.pde.ui.updatesite}/category.xml 
+- [Options]/Catagorize Repository: ${de.jwausle.support.org.eclipse.pde.ui.updatesite}/category.xml
+- export 
 
 
 

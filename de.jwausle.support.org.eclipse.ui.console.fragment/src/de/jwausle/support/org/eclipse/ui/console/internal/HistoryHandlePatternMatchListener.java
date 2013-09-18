@@ -11,7 +11,15 @@ import org.eclipse.ui.console.IOConsole;
 import org.eclipse.ui.console.IPatternMatchListener;
 import org.eclipse.ui.console.PatternMatchEvent;
 import org.eclipse.ui.console.TextConsole;
-
+/**
+ * IPatternMatchListener to extract a 'command' from 'matchFound()' via 'pattern' call. <br />
+ * <br />
+ * 'pattern'	:	pattern for line<br />
+ * 'command'	:=	pattern.matches(command).group(1)<br />
+ * 'matchFound'	:	interface impl<br />
+ * @author winter
+ *
+ */
 public final class HistoryHandlePatternMatchListener implements
 		IPatternMatchListener {
 	public static final String OSGI_COMMAND_LINE_PATTERN = "osgi>.*(\n[^\n]|\r[^\r])";
@@ -21,8 +29,7 @@ public final class HistoryHandlePatternMatchListener implements
 
 	private final HistoryHandle ioConsoleWithHistoryHandle;
 	private final IOConsole ioConsole;
-	private final String pattern;
-	private final Pattern pattern2;
+	private final Pattern pattern;
 
 	public HistoryHandlePatternMatchListener(IOConsole console,
 			HistoryHandle ioConsoleWithHistoryHandle) {
@@ -33,8 +40,7 @@ public final class HistoryHandlePatternMatchListener implements
 			HistoryHandle handle, String osgiCommandLinePattern) {
 		this.ioConsoleWithHistoryHandle = handle;
 		this.ioConsole = console;
-		this.pattern = osgiCommandLinePattern;
-		pattern2 = Pattern.compile(pattern);
+		this.pattern = Pattern.compile(osgiCommandLinePattern);
 	}
 
 	public void matchFound(PatternMatchEvent event) {
@@ -64,7 +70,8 @@ public final class HistoryHandlePatternMatchListener implements
 					+ Arrays.toString(e.getStackTrace()));
 		}
 		
-		Matcher matcher = pattern2.matcher(command);
+		//pattern-sample: "osgi>(.*)(\n[^\n]|\r[^\r])"
+		Matcher matcher = pattern.matcher(command);
 		if(matcher.matches()){
 			String group1 = matcher.group(1);
 			command = group1;
@@ -81,11 +88,11 @@ public final class HistoryHandlePatternMatchListener implements
 	}
 
 	public String getPattern() {
-		return pattern;
+		return this.pattern.pattern();
 	}
 
 	public String getLineQualifier() {
-		return pattern;
+		return this.pattern.pattern();
 	}
 
 	public int getCompilerFlags() {
