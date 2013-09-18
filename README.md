@@ -8,7 +8,7 @@ Enhancement for org.eclipse.pde.ui.internal.util.OSGiConsole ( Host OSGi Console
 - update-site: 
 
 ```
-https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory/raw/master/de.jwausle.support.org.eclipse.ui.console.updatesite/update-site/2.0.0
+https://github.com/jwausle/de.jwausle.support.org.eclipse.ui.console/raw/master/de.jwausle.support.org.eclipse.ui.console.updatesite/update-site/2.0.0
 ```
 
 - after install on mac 'eclipse -clean' start requiered 
