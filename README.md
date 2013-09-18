@@ -1,7 +1,7 @@
-de.jw.equinox.osgi.console.withhistory
-======================================
+de.jwausle.support.org.eclipse.ui.console
+========================================
 
-Enhancement for org.eclipse.pde.ui.internal.util.OSGiConsole ( Host OSGi Console). Append a command history via 'ARROW_UP'.
+Featured IOConsole with history via keys ( 'ARROW_UP' , 'ARROW_DOWN').
 
 
 ## HOWTO-install:
