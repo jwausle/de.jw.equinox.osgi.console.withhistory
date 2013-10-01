@@ -8,7 +8,7 @@ Featured IOConsole with history via keys ( 'ARROW_UP' , 'ARROW_DOWN').
 - update-site: 
 
 ```
-https://github.com/jwausle/de.jwausle.support.org.eclipse.ui.console/raw/master/de.jwausle.support.org.eclipse.ui.console.updatesite/update-site/2.0.0
+https://github.com/jwausle/de.jwausle.support.org.eclipse.ui.console/raw/master/de.jwausle.support.org.eclipse.ui.console.updatesite/update-site/2.1.0
 ```
 
 - after install on mac 'eclipse -clean' start requiered 
