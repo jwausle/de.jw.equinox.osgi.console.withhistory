@@ -5,9 +5,17 @@
          point="org.eclipse.ui.console.consolePageParticipants">
       <consolePageParticipant
             class="de.jwausle.support.org.eclipse.ui.console.internal.IOConsolePageParticipantWithHistory"
-            id="de.jw.support.org.eclipse.ui.console.internal.IOConsolePageParticipantWithHistory">
+            id="de.jwausle.support.org.eclipse.ui.console.internal.IOConsolePageParticipantWithHistory">
          <enablement></enablement>
-      </consolePageParticipant>
+      </consolePageParticipant>   
    </extension>
 
+   <extension
+         point="org.eclipse.ui.console.consolePageParticipants">
+      <consolePageParticipant
+            class="de.jwausle.support.org.eclipse.ui.console.internal.IOConsolePageParticipantWithLineWrapp"
+            id="de.jwausle.support.org.eclipse.ui.console.internal.IOConsolePageParticipantWithLineWrapp">
+         <enablement></enablement>
+      </consolePageParticipant>   
+   </extension>
 </fragment>

@@ -85,6 +85,7 @@ public class IOConsolePageParticipantWithHistory implements
 	private void lazyInit(final boolean initIfTrue) {
 		if (initIfTrue) {
 			StyledText textWiget = (StyledText) this.ioConsolePage.getControl();
+//			textWiget.setWordWrap(true);
 
 			this.ioConsoleHistoryHandle = new HistoryHandle(this.ioConsole, textWiget);
 			textWiget.addKeyListener(this.ioConsoleHistoryHandle);

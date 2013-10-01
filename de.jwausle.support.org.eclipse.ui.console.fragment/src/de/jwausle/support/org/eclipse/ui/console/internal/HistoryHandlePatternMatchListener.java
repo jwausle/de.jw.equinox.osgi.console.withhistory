@@ -11,17 +11,42 @@ import org.eclipse.ui.console.IOConsole;
 import org.eclipse.ui.console.IPatternMatchListener;
 import org.eclipse.ui.console.PatternMatchEvent;
 import org.eclipse.ui.console.TextConsole;
+
 /**
- * IPatternMatchListener to extract a 'command' from 'matchFound()' via 'pattern' call. <br />
+ * IPatternMatchListener to extract a 'command' from 'matchFound()' via
+ * 'pattern' call. <br />
  * <br />
- * 'pattern'	:	pattern for line<br />
- * 'command'	:=	pattern.matches(command).group(1)<br />
- * 'matchFound'	:	interface impl<br />
+ * 'pattern' : pattern for line<br />
+ * 'command' := pattern.matches(command).group(1)<br />
+ * 'matchFound' : interface impl<br />
+ * 
  * @author winter
- *
+ * 
  */
 public final class HistoryHandlePatternMatchListener implements
 		IPatternMatchListener {
+	public static String safeGetNextPatternMatchFromDocument(PatternMatchEvent event, IDocument document,
+			Pattern notNullPattern) {
+		int lineOffset = event.getOffset();
+		int lineLength = event.getLength();
+		String command = "";
+		try {
+			command = document.get(lineOffset, lineLength);
+		} catch (BadLocationException e) {
+			Logger.getLogger(HistoryHandlePatternMatchListener.class.getName())
+					.severe(e.getMessage() + ", stacktrace:\n"
+							+ Arrays.toString(e.getStackTrace()));
+		}
+
+		// pattern-sample: "osgi>(.*)(\n[^\n]|\r[^\r])"
+		Matcher matcher = notNullPattern.matcher(command);
+		if (matcher.matches()) {
+			String group1 = matcher.group(1);
+			command = group1;
+		}
+		return command;
+	}
+	
 	public static final String OSGI_COMMAND_LINE_PATTERN = "osgi>.*(\n[^\n]|\r[^\r])";
 
 	private final Logger log = Logger
@@ -46,7 +71,7 @@ public final class HistoryHandlePatternMatchListener implements
 	public void matchFound(PatternMatchEvent event) {
 		IDocument document = ioConsole.getDocument();
 
-		String command = safeGetNextPatternMatchFromDocument(event, document);
+		String command = safeGetNextPatternMatchFromDocument(event, document, pattern);
 
 		if ((command == null) || command.isEmpty()) {
 			return;
@@ -56,27 +81,6 @@ public final class HistoryHandlePatternMatchListener implements
 		}
 		ioConsoleWithHistoryHandle.data.clearSessionStack();
 		log.fine("enter:  " + ioConsoleWithHistoryHandle.data);
-	}
-
-	private String safeGetNextPatternMatchFromDocument(PatternMatchEvent event,
-			IDocument document) {
-		int lineOffset = event.getOffset();
-		int lineLength = event.getLength();
-		String command = "";
-		try {
-			command = document.get(lineOffset, lineLength);
-		} catch (BadLocationException e) {
-			log.severe(e.getMessage() + ", stacktrace:\n"
-					+ Arrays.toString(e.getStackTrace()));
-		}
-		
-		//pattern-sample: "osgi>(.*)(\n[^\n]|\r[^\r])"
-		Matcher matcher = pattern.matcher(command);
-		if(matcher.matches()){
-			String group1 = matcher.group(1);
-			command = group1;
-		}
-		return command;
 	}
 
 	public void disconnect() {
