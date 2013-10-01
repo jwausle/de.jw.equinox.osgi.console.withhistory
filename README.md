@@ -2,6 +2,7 @@ de.jwausle.support.org.eclipse.ui.console
 ========================================
 
 Featured IOConsole with history via keys ( 'ARROW_UP' , 'ARROW_DOWN').
+
 Featured TextConsole enable/disable LineWrapping via command ('enableLineWrapping' (default), 'disableLineWrapping')
 
 
