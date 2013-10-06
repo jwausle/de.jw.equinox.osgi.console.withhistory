@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Scala
+Bundle-SymbolicName: de.jwausle.support.org.eclipse.ui.console.scala2
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.scala-ide.scala.library
+Import-Package: java.util.logging,
+ org.eclipse.swt,
+ org.eclipse.swt.custom,
+ org.eclipse.swt.events,
+ org.eclipse.ui.console

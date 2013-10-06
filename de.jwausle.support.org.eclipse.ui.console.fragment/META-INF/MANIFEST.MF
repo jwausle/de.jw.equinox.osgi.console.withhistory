@@ -6,4 +6,3 @@ Bundle-Version: 2.1.0.qualifier
 Fragment-Host: org.eclipse.ui.console
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.4
-
