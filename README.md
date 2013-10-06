@@ -33,6 +33,10 @@ eclipse: restart
 - arrow-up  -> get last command (or nothing) 
 - arrow-down  -> get next command (or nothing) 
 
+![workflow01to03](https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory/raw/master/img/osgiConsole01bis03.png)
+-----
+![workflow01to03](https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory/raw/master/img/osgiConsole04bis06.png)
+
 Tested
 - for 'Host OSGi Console'
 - for 'Bndtools Process Console' : http://bndtools.org/
