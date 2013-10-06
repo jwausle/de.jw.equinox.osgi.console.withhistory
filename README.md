@@ -28,13 +28,35 @@ eclipse: restart
 
 ## HOWTO use:
 
-- open Console
+- open Console (Host OSGi Console)
 - edit command into IOConsole 'return'
 - arrow-up  -> get last command (or nothing) 
 - arrow-down  -> get next command (or nothing) 
 
+Sample: 
+
+```
+start by (1)
+osgi> disableLineWrapping
+... show (2)
+osgi> ss org.eclipse.equinox
+... show (3)
+osgi> enableLineWrapping
+... show (4)
+```
+
 ![workflow01to03](https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory/raw/master/img/osgiConsole01bis03.png)
 -----
+
+```
+osgi> ss org.eclipse.equinox (or 2x ARROW_UP)
+... show (5)
+osgi> disableLineWrapping (or 4x ARROW_UP)
+... show (6)
+osgi> enableLineWrapping (or 3x ARROW_UP)
+... show (1)
+```
+
 ![workflow01to03](https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory/raw/master/img/osgiConsole04bis06.png)
 
 Tested
