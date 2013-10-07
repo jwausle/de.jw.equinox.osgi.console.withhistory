@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>     
+   <extension
+         point="org.eclipse.ui.console.consolePageParticipants">
+      <consolePageParticipant
+            class="de.jwausle.support.org.eclipse.ui.console.scala.internal.history.IOConsolePageParticipantWithHistory"
+            id="de.jwausle.support.org.eclipse.ui.console.internal.IOConsolePageParticipantWithHistory">
+         <enablement></enablement>
+      </consolePageParticipant>   
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.console.consolePageParticipants">
+      <consolePageParticipant
+            class="de.jwausle.support.org.eclipse.ui.console.scala.internal.linewrap.TextConsolePageParticipantWithLineWrap"
+            id="de.jwausle.support.org.eclipse.ui.console.internal.IOConsolePageParticipantWithLineWrapp">
+         <enablement></enablement>
+      </consolePageParticipant>   
+   </extension>
+</plugin>

@@ -1,17 +1,15 @@
-package de.jwausle.support.org.eclipse.ui.console.internal
+package de.jwausle.support.org.eclipse.ui.console.scala.internal.history
 import java.util.Stack
 import java.lang.Boolean
 
 class HistoryCommandStack(history: Stack[String] = new Stack, historySession: Stack[String] = new Stack) {
 
-  def add(command: String) = {
+  def add(command: String):Unit = {
     val optCommand: Option[String] = Option(command)
 
-    if (optCommand.map(c => equalsLastCommand(c)).getOrElse(Boolean.FALSE))
-      Unit
+    if (optCommand.map(c => equalsLastCommand(c)).getOrElse(Boolean.FALSE)) return
 
-    if (optCommand.getOrElse("").trim().isEmpty())
-      Unit
+    if (optCommand.getOrElse("").trim().isEmpty()) return
 
     val trimmedCommand = optCommand //
       .map(command => dropRightIfExist("\r")(command))
@@ -23,7 +21,6 @@ class HistoryCommandStack(history: Stack[String] = new Stack, historySession: St
     }
 
     history.push(trimmedCommand)
-    Unit
   }
 
   def popFromHistory() = pushPopIfPopIsNotEmpty(this.historySession,this.history)
@@ -31,8 +28,8 @@ class HistoryCommandStack(history: Stack[String] = new Stack, historySession: St
   def popOneBefore() = pushPopIfPopIsNotEmpty(this.history,this.historySession)
   
   private def pushPopIfPopIsNotEmpty(pushStack:Stack[String],popStack:Stack[String]):String = {
-    if(popStack.isEmpty())
-      ""
+    if(popStack.isEmpty()) return ""
+    
     pushStack.push(popStack.pop())
   }
   
@@ -45,26 +42,26 @@ class HistoryCommandStack(history: Stack[String] = new Stack, historySession: St
     this.historySession.clear()
   }
 
-  def equalsLastCommand(command: String) = {
-    if (true_IfHistoryEmpty_Or_CommandNull(command))
-      Boolean.FALSE
+  def equalsLastCommand(command: String):scala.Boolean = {
+    if (true_IfHistoryEmpty_Or_CommandNull(command)) return Boolean.FALSE
 
+    
     command.trim().equals(lastCommand())
   }
 
-  private def lastCommand() {
-    if (!historySession.isEmpty())
-      historySessionAsReverseList(historySession).head
-    if (!history.isEmpty())
-      history.peek()
-    ""
+  private def lastCommand():String = {
+    if (!historySession.isEmpty()) return historySessionAsReverseList(historySession).head
+    
+    if (!history.isEmpty()) return history.peek()
+    
+    return ""
   }
 
-  private def true_IfHistoryEmpty_Or_CommandNull(command: String) = {
-    if (history.isEmpty())
-      Boolean.TRUE
-    if (command == null)
-      Boolean.TRUE
+  private def true_IfHistoryEmpty_Or_CommandNull(command: String):Boolean = {
+    if (history.isEmpty()) return Boolean.TRUE
+    
+    if (command == null) return Boolean.TRUE
+    
     Boolean.FALSE
   }
 
@@ -73,13 +70,13 @@ class HistoryCommandStack(history: Stack[String] = new Stack, historySession: St
     list.asScala.reverse
   }
 
-  private def dropRightIfExist(right: String)(cmd: String) = {
+  private def dropRightIfExist(right: String)(cmd: String):String = {
     val trimmedCmd = Option(cmd).getOrElse("").trim()
 
     if (trimmedCmd.endsWith(right)) {
-      trimmedCmd.dropRight(right.length())
+      return trimmedCmd.dropRight(right.length())
     }
-    ""
+    trimmedCmd
   }
   
   override def toString() = "IOConsoleWithHistoryData [history=" + this.history	+ ", historySession=" + this.historySession + "]"

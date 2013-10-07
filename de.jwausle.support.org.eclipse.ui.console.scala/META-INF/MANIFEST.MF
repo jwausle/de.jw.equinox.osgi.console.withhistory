@@ -1,12 +1,21 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Scala
-Bundle-SymbolicName: de.jwausle.support.org.eclipse.ui.console.scala2
-Bundle-Version: 1.0.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Name: UI Console with History in scala
+Bundle-SymbolicName: de.jwausle.support.org.eclipse.ui.console.scala;singleton:=true
+Bundle-Version: 2.1.0.qualifier
 Require-Bundle: org.scala-ide.scala.library
-Import-Package: java.util.logging,
- org.eclipse.swt,
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Import-Package: org.eclipse.core.runtime,
+ org.eclipse.core.runtime.jobs,
+ org.eclipse.jface.resource,
+ org.eclipse.jface.text,
+ org.eclipse.jface.util,
  org.eclipse.swt.custom,
  org.eclipse.swt.events,
- org.eclipse.ui.console
+ org.eclipse.swt.graphics,
+ org.eclipse.swt.widgets,
+ org.eclipse.ui,
+ org.eclipse.ui.console,
+ org.eclipse.ui.part
+

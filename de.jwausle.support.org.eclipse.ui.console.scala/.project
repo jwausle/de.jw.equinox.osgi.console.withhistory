@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>de.jwausle.support.org.eclipse.ui.console.scala2</name>
+	<name>de.jwausle.support.org.eclipse.ui.console.scala</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -16,14 +16,14 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>ch.epfl.lamp.sdt.core.scalabuilder</name>
+			<name>org.scala-ide.sdt.core.scalabuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
 	</buildSpec>
 	<natures>
+		<nature>org.scala-ide.sdt.core.scalanature</nature>
 		<nature>org.eclipse.pde.PluginNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
-		<nature>ch.epfl.lamp.sdt.core.scalanature</nature>
 	</natures>
 </projectDescription>
