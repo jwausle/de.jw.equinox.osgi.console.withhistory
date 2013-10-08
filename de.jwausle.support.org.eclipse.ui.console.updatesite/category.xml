@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/de.jwausle.support.org.eclipse.pde.ui.feature_2.0.0.qualifier.jar" id="de.jwausle.support.org.eclipse.pde.ui.feature" version="2.0.0.qualifier">
+   <feature url="features/de.jwausle.support.org.eclipse.pde.ui.feature_2.0.0.qualifier.jar" id="de.jwausle.support.org.eclipse.pde.ui.feature" version="0.0.0">
       <category name="IOConsoleWithHistory.ID"/>
    </feature>
    <category-def name="IOConsoleWithHistory.ID" label="IOConsoleWithHistory"/>
