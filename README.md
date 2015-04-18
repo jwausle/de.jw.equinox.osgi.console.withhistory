@@ -70,7 +70,7 @@ Tested
 - 'pattern' : normal java.util.RegExp
   - group(1) will interprete as command
   - sample-pattern: 'osgi>(.*)(\n[^\n]|\r[^\r])' for 'Host OSGi Console'
-  - sample-pattern-sample: 'osgi> ss | grep de.jwausle [return]'
+  - sample-pattern-match: 'osgi> ss | grep de.jwausle [return]'
 
 
 ## HOWTO-contribute
