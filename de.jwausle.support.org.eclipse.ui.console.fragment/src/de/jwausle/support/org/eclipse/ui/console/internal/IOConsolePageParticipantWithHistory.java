@@ -115,9 +115,9 @@ public class IOConsolePageParticipantWithHistory implements
 		BundleContext bundleContext = FrameworkUtil.getBundle(getClass())
 				.getBundleContext();
 
-		commandTracker = new _CommandServiceTracker(bundleContext);
-		bundleTracker = new _BundleServiceTracker(bundleContext);
-		assistant = new _QuickAssistAssistant();
+		commandTracker = new ProposalGetterCommands(bundleContext);
+		bundleTracker = new ProposalGetterBundles(bundleContext);
+		assistant = new QuickAssistant();
 
 		SourceViewerConfiguration configuration = assistant.get();
 		viewer.configure(configuration);
@@ -142,7 +142,7 @@ public class IOConsolePageParticipantWithHistory implements
 			StyledText textWiget = (StyledText) this.ioConsolePage.getControl();
 			TMP = textWiget;
 
-			InputLineListener listener = new InputLineListener(textWiget);
+			IOConsoleListener listener = new IOConsoleListener(textWiget);
 			listener.setCommandTracker(this.commandTracker);
 			listener.setBundleTracker(this.bundleTracker);
 			listener.setContentAssist(this.assistant);
@@ -151,11 +151,11 @@ public class IOConsolePageParticipantWithHistory implements
 		}
 	}
 
-	private _CommandServiceTracker commandTracker;
+	private ProposalGetterCommands commandTracker;
 
-	private _BundleServiceTracker bundleTracker;
+	private ProposalGetterBundles bundleTracker;
 
-	private _QuickAssistAssistant assistant;
+	private QuickAssistant assistant;
 
 
 }

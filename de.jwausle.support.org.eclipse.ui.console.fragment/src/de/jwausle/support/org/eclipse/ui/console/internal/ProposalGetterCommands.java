@@ -19,15 +19,15 @@ import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 
-public class _CommandServiceTracker implements _CompletionProposalGetter {
+public class ProposalGetterCommands implements ProposalGetter {
 	private Map<String, String> commandMap = new LinkedHashMap<String, String>();
 
-	public _CommandServiceTracker() {
-		this(FrameworkUtil.getBundle(_CommandServiceTracker.class)
+	public ProposalGetterCommands() {
+		this(FrameworkUtil.getBundle(ProposalGetterCommands.class)
 				.getBundleContext());
 	}
 
-	public _CommandServiceTracker(BundleContext bundleContext) {
+	public ProposalGetterCommands(BundleContext bundleContext) {
 		try {
 			@SuppressWarnings("rawtypes")
 			ServiceTracker serviceTracker = trackOSGiCommands(bundleContext);
@@ -45,16 +45,16 @@ public class _CommandServiceTracker implements _CompletionProposalGetter {
 			CommandWriter writer) {
 		ICompletionProposal[] _return;
 		if (filter == null)
-			_return = _QuickAssistAssistant.newICompletionProposals(commandMap,
+			_return = QuickAssistant.newICompletionProposals(commandMap,
 					writer);
 		else if (filter.isEmpty())
-			_return = _QuickAssistAssistant.newICompletionProposals(commandMap,
+			_return = QuickAssistant.newICompletionProposals(commandMap,
 					writer);
 		else {
 			Set<Entry<String, String>> entrySet = commandMap.entrySet();
 			Map<String, String> commandMap2 = new LinkedHashMap<String, String>();
 			for (Entry<String, String> entry : entrySet) {
-				String command = _QuickAssistAssistant
+				String command = QuickAssistant
 						.commandWithoutScope(entry.getKey());
 				// System.err.println("===> " + command + "," + filter);
 				if (!command.startsWith(filter))
@@ -63,7 +63,7 @@ public class _CommandServiceTracker implements _CompletionProposalGetter {
 				commandMap2.put(entry.getKey(), entry.getValue());
 			}
 			System.err.println("===> filtered map: " + commandMap2.keySet());
-			_return = _QuickAssistAssistant.newICompletionProposals(
+			_return = QuickAssistant.newICompletionProposals(
 					commandMap2, writer);
 		}
 		System.err.printf("===> callback cmd-proposals: %s/%s for filter=´%s´\n", _return.length,

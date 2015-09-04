@@ -8,11 +8,11 @@ import org.eclipse.jface.text.contentassist.IContextInformation;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 
-class _CompletionProposal implements ICompletionProposal {
+class QuickAssistantCompletionProposal implements ICompletionProposal {
 	private final CommandWriter writer;
 	private final Entry<String, String> entry;
 
-	_CompletionProposal(CommandWriter writer,
+	QuickAssistantCompletionProposal(CommandWriter writer,
 			Entry<String, String> entry) {
 		this.writer = writer;
 		this.entry = entry;
@@ -31,7 +31,7 @@ class _CompletionProposal implements ICompletionProposal {
 
 	public String getDisplayString() {
 		String key = entry.getKey();
-		return _QuickAssistAssistant.commandWithoutScope(key);
+		return QuickAssistant.commandWithoutScope(key);
 	}
 
 	public IContextInformation getContextInformation() {
@@ -46,7 +46,7 @@ class _CompletionProposal implements ICompletionProposal {
 		System.err.println("==> Apply to document: "
 				+ entry.getKey());
 		String key = entry.getKey();
-		String commandWithoutScope = _QuickAssistAssistant.commandWithoutScope(key);
+		String commandWithoutScope = QuickAssistant.commandWithoutScope(key);
 		writer.write(commandWithoutScope);
 	}
 }

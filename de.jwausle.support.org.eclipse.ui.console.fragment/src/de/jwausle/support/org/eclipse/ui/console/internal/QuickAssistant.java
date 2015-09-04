@@ -11,8 +11,6 @@ import java.util.Set;
 import org.eclipse.jface.text.AbstractReusableInformationControlCreator;
 import org.eclipse.jface.text.DefaultInformationControl;
 import org.eclipse.jface.text.IInformationControl;
-import org.eclipse.jface.text.contentassist.ContentAssistEvent;
-import org.eclipse.jface.text.contentassist.ICompletionListener;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.quickassist.IQuickAssistAssistant;
 import org.eclipse.jface.text.quickassist.IQuickAssistInvocationContext;
@@ -23,7 +21,7 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.swt.widgets.Shell;
 
-public class _QuickAssistAssistant implements _CompletionProposalGetter {
+public class QuickAssistant implements ProposalGetter {
 	public static String commandWithoutScope(String key) {
 		if (!key.contains(":"))
 			return key;
@@ -36,7 +34,7 @@ public class _QuickAssistAssistant implements _CompletionProposalGetter {
 		List<ICompletionProposal> list = new LinkedList<ICompletionProposal>();
 		Set<Entry<String, String>> entrySet = commandMap.entrySet();
 		for (final Entry<String, String> entry : entrySet) {
-			list.add(new _CompletionProposal(writer, entry));
+			list.add(new QuickAssistantCompletionProposal(writer, entry));
 		}
 		Collections.sort(list, new Comparator<ICompletionProposal>() {
 
@@ -51,22 +49,22 @@ public class _QuickAssistAssistant implements _CompletionProposalGetter {
 	private boolean visible = false;
 	
 	private QuickAssistAssistant assistant = null;
-	private _CompletionProposalGetter getter = null;
+	private ProposalGetter getter = null;
 	private String filter = null;
 	private CommandWriter writer = null;
 
-	public _QuickAssistAssistant() {
+	public QuickAssistant() {
 		assistant = new QuickAssistAssistant();
 		IQuickAssistProcessor processor = new IQuickAssistProcessor() {
 
 			public String getErrorMessage() {
 				return "ERROR on "
-						+ _QuickAssistAssistant.class.getSimpleName();
+						+ QuickAssistant.class.getSimpleName();
 			}
 
 			public ICompletionProposal[] computeQuickAssistProposals(
 					IQuickAssistInvocationContext invocationContext) {
-				_QuickAssistAssistant assistant = _QuickAssistAssistant.this;
+				QuickAssistant assistant = QuickAssistant.this;
 				ICompletionProposal[] completionProposal = assistant
 						.getCompletionProposal(filter, writer);
 				return completionProposal;
@@ -103,7 +101,7 @@ public class _QuickAssistAssistant implements _CompletionProposalGetter {
 		};
 	}
 
-	public void show(_CompletionProposalGetter proposalGetter, String filter, CommandWriter commandWriter) {
+	public void show(ProposalGetter proposalGetter, String filter, CommandWriter commandWriter) {
 		this.filter = filter;
 		this.getter = proposalGetter;
 		this.writer = commandWriter;

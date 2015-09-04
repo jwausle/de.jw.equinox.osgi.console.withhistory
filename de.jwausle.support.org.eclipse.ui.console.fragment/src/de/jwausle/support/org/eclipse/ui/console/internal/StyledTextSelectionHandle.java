@@ -3,11 +3,11 @@ package de.jwausle.support.org.eclipse.ui.console.internal;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Point;
 
-class _SelectionHandle {
+class StyledTextSelectionHandle {
 
 	private StyledText styledText2;
 
-	public _SelectionHandle(StyledText st) {
+	public StyledTextSelectionHandle(StyledText st) {
 		styledText2 = st;
 	}
 
@@ -57,7 +57,7 @@ class _SelectionHandle {
 			// ignore
 		}
 
-		if (_StyledTextHandle.isTabOrNonSpaceBreak(c))
+		if (StyledTextHandle.isTabOrNonSpaceBreak(c))
 			length++;
 
 		return length;
@@ -78,19 +78,19 @@ class _SelectionHandle {
 
 		int offsetAtLine = this.styledText2.getOffsetAtLine(styledText2
 				.getLineCount() - 1);
-		if (cursorLocation.x < offsetAtLine + _StyledTextHandle.OSGI.length())
+		if (cursorLocation.x < offsetAtLine + StyledTextHandle.OSGI.length())
 			return "";
 		String line = getLine();
 		String substring = line.substring(0, cursorLocation.x - offsetAtLine);
-		substring = substring.replace(_StyledTextHandle.OSGI, "");
+		substring = substring.replace(StyledTextHandle.OSGI, "");
 
 		StringBuffer reverse = new StringBuffer(substring).reverse();
 		StringBuffer buffer = new StringBuffer();
 		char[] charArray = reverse.toString().toCharArray();
 		for (char c : charArray) {
-			if (ignore && _StyledTextHandle.isTabOrNonSpaceBreak(c))
+			if (ignore && StyledTextHandle.isTabOrNonSpaceBreak(c))
 				continue;
-			if (_StyledTextHandle.isSpace(c)) {
+			if (StyledTextHandle.isSpace(c)) {
 				return buffer.reverse().toString();
 			}
 			buffer.append(c);

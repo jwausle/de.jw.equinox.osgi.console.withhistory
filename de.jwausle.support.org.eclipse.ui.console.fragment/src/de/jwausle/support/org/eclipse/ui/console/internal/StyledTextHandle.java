@@ -4,7 +4,7 @@ import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.custom.StyledTextContent;
 import org.eclipse.swt.graphics.Point;
 
-public class _StyledTextHandle {
+public class StyledTextHandle {
 	public static boolean isTabOrNonSpaceBreak(char c) {
 		return ignore(c);
 	}
@@ -20,17 +20,17 @@ public class _StyledTextHandle {
 	private StyledText styledText;
 	private String linestart;
 
-	public _StyledTextHandle(StyledText text) {
+	public StyledTextHandle(StyledText text) {
 		this(text, OSGI);
 	}
 
-	public _StyledTextHandle(StyledText text, String linestart) {
+	public StyledTextHandle(StyledText text, String linestart) {
 		this.styledText = text;
 		this.linestart = linestart;
 	}
 
 	public String getTokenBeforeCursor() {
-		String precender = new _SelectionHandle(styledText)
+		String precender = new StyledTextSelectionHandle(styledText)
 				.getPrecenderTrimmed();
 		return precender;
 	}
@@ -58,7 +58,7 @@ public class _StyledTextHandle {
 	}
 
 	public void replace(String match, String replacement) {
-		_SelectionHandle selection2 = new _SelectionHandle(styledText);
+		StyledTextSelectionHandle selection2 = new StyledTextSelectionHandle(styledText);
 		int start2 = selection2.getStart();
 		int length2 = selection2.getLenght();
 

@@ -15,15 +15,15 @@ import org.osgi.framework.BundleEvent;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.BundleTracker;
 
-public class _BundleServiceTracker implements _CompletionProposalGetter {
+public class ProposalGetterBundles implements ProposalGetter {
 
 	private Map<String, String> bundleMap = Collections
 			.synchronizedMap(new LinkedHashMap<String, String>());
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public _BundleServiceTracker(BundleContext bundleContext) {
+	public ProposalGetterBundles(BundleContext bundleContext) {
 		BundleContext context = FrameworkUtil.getBundle(
-				_BundleServiceTracker.class).getBundleContext();
+				ProposalGetterBundles.class).getBundleContext();
 		new BundleTracker(context, Bundle.RESOLVED, null) {
 
 			@Override
@@ -31,7 +31,7 @@ public class _BundleServiceTracker implements _CompletionProposalGetter {
 				Object addingBundle = super.addingBundle(bundle, event);
 				Dictionary<String, String> headers = bundle.getHeaders();
 
-				String headersString = _BundleServiceTracker.toString(headers);
+				String headersString = ProposalGetterBundles.toString(headers);
 				bundleMap.put(bundle.getSymbolicName(), headersString);
 
 				return addingBundle;
@@ -60,10 +60,10 @@ public class _BundleServiceTracker implements _CompletionProposalGetter {
 			CommandWriter writer) {
 		ICompletionProposal[] _return;
 		if (filter == null)
-			_return = _QuickAssistAssistant.newICompletionProposals(bundleMap,
+			_return = QuickAssistant.newICompletionProposals(bundleMap,
 					writer);
 		else if (filter.trim().isEmpty())
-			_return = _QuickAssistAssistant.newICompletionProposals(bundleMap,
+			_return = QuickAssistant.newICompletionProposals(bundleMap,
 					writer);
 		else {
 			Map<String, String> map = new LinkedHashMap<String, String>();
@@ -76,7 +76,7 @@ public class _BundleServiceTracker implements _CompletionProposalGetter {
 				map.put(entry.getKey(), entry.getValue());
 			}
 			System.err.println("===> filtered map: " + map.keySet());
-			_return = _QuickAssistAssistant
+			_return = QuickAssistant
 					.newICompletionProposals(map, writer);
 		}
 		System.err.printf("===> callback bundle-proposals: %s/%s for filter=´%s´\n", _return.length,bundleMap.size(), filter.trim());

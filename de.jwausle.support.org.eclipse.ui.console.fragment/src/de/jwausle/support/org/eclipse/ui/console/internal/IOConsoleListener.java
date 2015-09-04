@@ -3,22 +3,21 @@ package de.jwausle.support.org.eclipse.ui.console.internal;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
-import org.eclipse.ui.console.IOConsole;
 
-public class InputLineListener implements KeyListener {
+public class IOConsoleListener implements KeyListener {
 
 	private StyledText styledText;
 
-	private _HistoryHandle history2;
+	private IOConsoleHistory history2;
 
-	private _CommandServiceTracker cmdTracker;
-	private _BundleServiceTracker bundleTracker;
-	private _QuickAssistAssistant quickAssist;
+	private ProposalGetterCommands cmdTracker;
+	private ProposalGetterBundles bundleTracker;
+	private QuickAssistant quickAssist;
 	private String lastcommand;
 
-	public InputLineListener(final StyledText textWigetRef) {
+	public IOConsoleListener(final StyledText textWigetRef) {
 		this.styledText = textWigetRef;
-		this.history2 = new _HistoryHandle(textWigetRef);
+		this.history2 = new IOConsoleHistory(textWigetRef);
 	}
 
 	public static String replaceLast(String string, String toReplace,
@@ -35,28 +34,28 @@ public class InputLineListener implements KeyListener {
 	}
 
 	public static String getLastWord(StyledText styledText2) {
-		String tokenBeforeCursor = new _StyledTextHandle(styledText2)
+		String tokenBeforeCursor = new StyledTextHandle(styledText2)
 				.getTokenBeforeCursor();
 		System.err.printf("==> filter: %s\n", tokenBeforeCursor);
 		return tokenBeforeCursor;
 	}
 
-	public void setCommandTracker(_CommandServiceTracker commandTracker) {
+	public void setCommandTracker(ProposalGetterCommands commandTracker) {
 		this.cmdTracker = commandTracker;
 	}
 
-	public void setContentAssist(_QuickAssistAssistant assistant) {
+	public void setContentAssist(QuickAssistant assistant) {
 		this.quickAssist = assistant;
 	}
 
-	public void setBundleTracker(_BundleServiceTracker bundleTracker) {
+	public void setBundleTracker(ProposalGetterBundles bundleTracker) {
 		this.bundleTracker = bundleTracker;
 	}
 
 	public void keyPressed(KeyEvent e) {
 		KeyHandle key = new KeyHandle(e);
 		if (key.isReturn()) {
-			lastcommand = new _StyledTextHandle(styledText)
+			lastcommand = new StyledTextHandle(styledText)
 					.getLastCommandLine();
 			// addBufferToHistory();
 		}
@@ -75,8 +74,8 @@ public class InputLineListener implements KeyListener {
 		if (key.isCtrlSpace() || key.isTab()) {
 			String lastWord = getLastWord(this.styledText);
 			System.err.printf("===> capture alt+' ' with ´%s´\n", lastWord);
-			_ReplaceCommandWriter writer = new _ReplaceCommandWriter(lastWord,
-					new _StyledTextHandle(this.styledText));
+			CommandWriterSimple writer = new CommandWriterSimple(lastWord,
+					new StyledTextHandle(this.styledText));
 			writer.setQuickAssistance(quickAssist);
 			this.quickAssist.show(this.cmdTracker, lastWord, writer);
 			e.doit = false;
@@ -87,7 +86,7 @@ public class InputLineListener implements KeyListener {
 			String lastWord = getLastWord(this.styledText);
 			System.err.printf("===> capture alt+' ' with ´%s´\n", lastWord);
 			this.quickAssist.show(this.bundleTracker, lastWord,
-					new _ReplaceCommandWriter(lastWord, new _StyledTextHandle(
+					new CommandWriterSimple(lastWord, new StyledTextHandle(
 							this.styledText)));
 			e.doit = false;
 			return;
@@ -96,15 +95,12 @@ public class InputLineListener implements KeyListener {
 		boolean visible = this.quickAssist.isVisible();
 		if (!visible && key.isArrowUp()) {
 			String previous = history2.previous();
-			new _StyledTextHandle(styledText).replaceLine(previous);
+			new StyledTextHandle(styledText).replaceLine(previous);
 		} else if (!visible && key.isArrowDown()) {
 			String next = history2.next();
-			new _StyledTextHandle(styledText).replaceLine(next);
+			new StyledTextHandle(styledText).replaceLine(next);
 		} else if (!visible && key.isReturn()) {
 			this.history2.add(lastcommand);
-		}
-		if ("".isEmpty()) {
-			return;
 		}
 
 	}

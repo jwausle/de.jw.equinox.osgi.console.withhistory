@@ -1,6 +1,5 @@
 package de.jwausle.support.org.eclipse.ui.console.internal;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -9,18 +8,18 @@ import java.util.Stack;
 import org.eclipse.swt.custom.StyledText;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
-public class _HistoryHandle {
+public class IOConsoleHistory {
 	private final StyledText styledText;
 
 	private Stack history = new Stack();
 
 	private ListIterator session = null;
 
-	public _HistoryHandle(StyledText st) {
+	public IOConsoleHistory(StyledText st) {
 		styledText = st;
 	}
 
-	public _HistoryHandle add(String command) {
+	public IOConsoleHistory add(String command) {
 		session = null;
 
 		if (command == null)
