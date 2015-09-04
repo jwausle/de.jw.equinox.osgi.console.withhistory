@@ -23,6 +23,7 @@ public class StyledTextEditArea {
 
   public void setCharCountAfterWrite(final StyledText styledText) {
     this.consoleCharCountAfterAdding = styledText.getContent().getCharCount();
+    
   }
 
   public int getDeleteCommandLength(final int consoleCharCountActual) {

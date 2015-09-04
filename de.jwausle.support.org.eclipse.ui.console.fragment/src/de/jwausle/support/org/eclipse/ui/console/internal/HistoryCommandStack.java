@@ -11,6 +11,7 @@ import java.util.Stack;
 /**
  * @author wij1si
  */
+@SuppressWarnings("rawtypes")
 public class HistoryCommandStack {
 
 	private final Stack history;
@@ -69,6 +70,7 @@ public class HistoryCommandStack {
 	 *            to append command.
 	 */
 
+	@SuppressWarnings("unchecked")
 	public void add(final String command) {
 		if (command == null) {
 			return;
@@ -100,6 +102,7 @@ public class HistoryCommandStack {
 	/**
    * 
    */
+	@SuppressWarnings("unchecked")
 	public void clearSessionStack() {
 		List historySessionCopy = historySessionAsReverseList();
 
@@ -107,6 +110,7 @@ public class HistoryCommandStack {
 		this.historySession.clear();
 	}
 
+	@SuppressWarnings("unchecked")
 	private List historySessionAsReverseList() {
 		List historySessionCopy = new LinkedList(this.historySession);
 		Collections.reverse(historySessionCopy);
@@ -116,6 +120,7 @@ public class HistoryCommandStack {
 	/**
 	 * @return lastComamnd or "" if history is empty.
 	 */
+	@SuppressWarnings("unchecked")
 	public String popFromHistory() {
 		if (this.history.isEmpty()) {
 			return "";
@@ -130,6 +135,7 @@ public class HistoryCommandStack {
 	/**
 	 * @return lastCommand from session(arrow up) or "" if session is empty.
 	 */
+	@SuppressWarnings("unchecked")
 	public String popOneBefore() {
 		if (this.historySession.isEmpty()) {
 			return "";
@@ -145,8 +151,36 @@ public class HistoryCommandStack {
 	 * {@inheritDoc}
 	 */
 	public String toString() {
-		return "IOConsoleWithHistoryData [history=" + this.history
-				+ ", historySession=" + this.historySession + "]";
+		switch (history.size()) {
+		case 0:
+			return "[]";
+		case 1:
+		case 2:
+		case 3:
+			return history.toString();
+		default:
+			String first = history.elementAt(0).toString();
+			String last = history.elementAt(history.size() - 1).toString();
+			return "[" + first + ", ..(" + history.size() + ").. ,  " + last
+					+ "]";
+		}
+	}
+
+	public boolean isEmpty() {
+		return this.history.isEmpty();
+	}
+
+	public int lenght() {
+		return this.history.size();
+	}
+
+	public String toStringAll() {
+		return this.history.toString();
+	}
+
+	public void clear() {
+		this.history.clear();
+		this.historySession.clear();
 	}
 
 }
