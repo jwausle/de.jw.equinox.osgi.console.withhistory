@@ -44,12 +44,6 @@ public class IOConsolePageParticipantWithLineWrapp implements
 		}
 
 		boolean consoleExist = this.console != null;
-		if (consoleExist) {
-			console.addPatternMatchListener(new LineWrappPatternMatchListener(
-					this, ".*(disableLineWrapping).*(\n[^\n]|\r[^\r])"));
-			console.addPatternMatchListener(new LineWrappPatternMatchListener(
-					this, ".*(enableLineWrapping).*(\n[^\n]|\r[^\r])"));
-		}
 	}
 
 	protected void enableLineWrapping() {

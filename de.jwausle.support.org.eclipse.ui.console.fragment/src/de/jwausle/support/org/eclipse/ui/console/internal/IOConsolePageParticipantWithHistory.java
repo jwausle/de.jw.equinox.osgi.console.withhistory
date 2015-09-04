@@ -98,10 +98,7 @@ public class IOConsolePageParticipantWithHistory implements
 	public static QuickAssistAssistant quickAssistAssistant;
 
 	private IOConsolePage ioConsolePage;
-	private HistoryHandle ioConsoleHistoryHandle;
 	private IOConsole ioConsole;
-	private static Map<String, String> commandMap = Collections
-			.synchronizedMap(new LinkedHashMap<String, String>());
 
 	public Object getAdapter(Class adapter) {
 		return null;
@@ -129,12 +126,10 @@ public class IOConsolePageParticipantWithHistory implements
 	public void dispose() {
 		this.ioConsole = null;
 		this.ioConsolePage = null;
-		this.ioConsoleHistoryHandle = null;
 	}
 
 	public void activated() {
-		boolean pageExist_AND_historyHandleIsNull = (this.ioConsolePage != null)
-				&& (this.ioConsoleHistoryHandle == null);
+		boolean pageExist_AND_historyHandleIsNull = (this.ioConsolePage != null);
 
 		lazyInit(pageExist_AND_historyHandleIsNull);
 	}
@@ -147,103 +142,14 @@ public class IOConsolePageParticipantWithHistory implements
 			StyledText textWiget = (StyledText) this.ioConsolePage.getControl();
 			TMP = textWiget;
 
-			InputLineListener listener = new InputLineListener(this.ioConsole,
-					textWiget);
+			InputLineListener listener = new InputLineListener(textWiget);
 			listener.setCommandTracker(this.commandTracker);
 			listener.setBundleTracker(this.bundleTracker);
 			listener.setContentAssist(this.assistant);
-			// textWiget.addKeyListener(listener);
-			if ("".isEmpty()) {
-				// textWiget.getDisplay().addFilter(SWT.KeyDown, listener);
-//				textWiget.addVerifyKeyListener(listener);
-				textWiget.addKeyListener(listener);
-			}
-
-			// this.ioConsoleHistoryHandle = new HistoryHandle(this.ioConsole,
-			// textWiget);
-			// textWiget.addKeyListener(this.ioConsoleHistoryHandle);
-			//
-			// this.ioConsole.addPatternMatchListener(new
-			// HistoryHandlePatternMatchListener(ioConsole,
-			// ioConsoleHistoryHandle,"osgi>(.*)(\n[^\n]|\r[^\r])"));
-			// this.ioConsole.addPatternMatchListener(new
-			// HistoryHandlePatternMatchListener(ioConsole,
-			// ioConsoleHistoryHandle,"g!(.*)(\n[^\n]|\r[^\r])"));
-			//
-			// List userPattern = getUserPattern();
-			// for (int i=0; i<userPattern.size();i++) {
-			// String pattern = userPattern.get(i).toString();
-			// this.ioConsole.addPatternMatchListener(new
-			// HistoryHandlePatternMatchListener(ioConsole,
-			// ioConsoleHistoryHandle,pattern ));
-			// }
+			
+			textWiget.addKeyListener(listener);
 		}
 	}
-
-	private List getUserPattern() {
-		String keyPrefix = IOCONSOLE_HISTORY_PATTERN;
-		List userPattern = getUserPattern(keyPrefix);
-		return userPattern;
-	}
-
-	@SuppressWarnings({ "unused", "unchecked", "rawtypes" })
-	private ServiceTracker trackOSGiCommands(final BundleContext context)
-			throws InvalidSyntaxException {
-		Filter filter = context.createFilter("(&("
-				+ CommandProcessor.COMMAND_SCOPE + "=*)("
-				+ CommandProcessor.COMMAND_FUNCTION + "=*))");
-
-		return new ServiceTracker(context, filter, null) {
-			@Override
-			public Object addingService(ServiceReference reference) {
-				Object scope = reference
-						.getProperty(CommandProcessor.COMMAND_SCOPE);
-				Object function = reference
-						.getProperty(CommandProcessor.COMMAND_FUNCTION);
-				Map<String, String> commands = new LinkedHashMap<String, String>();
-
-				if (scope != null && function != null) {
-					if (function.getClass().isArray()) {
-						for (Object f : ((Object[]) function)) {
-							commands.put(scope + ":" + f.toString(),
-									"no help for " + f.toString());
-						}
-					} else {
-						commands.put(scope + ":" + function.toString(),
-								"no help for " + function.toString());
-					}
-					commandMap.putAll(commands);
-					return commands;
-				}
-				return null;
-			}
-
-			@Override
-			public void removedService(ServiceReference reference,
-					Object service) {
-				Object scope = reference
-						.getProperty(CommandProcessor.COMMAND_SCOPE);
-				Object function = reference
-						.getProperty(CommandProcessor.COMMAND_FUNCTION);
-
-				if (scope != null && function != null) {
-					if (!function.getClass().isArray()) {
-						commandMap.remove(scope.toString() + ":"
-								+ function.toString());
-					} else {
-						for (Object func : (Object[]) function) {
-							commandMap.remove(scope.toString() + ":"
-									+ func.toString());
-						}
-					}
-				}
-
-				super.removedService(reference, service);
-			}
-		};
-	}
-
-	private Thread thread;
 
 	private _CommandServiceTracker commandTracker;
 
@@ -251,64 +157,5 @@ public class IOConsolePageParticipantWithHistory implements
 
 	private _QuickAssistAssistant assistant;
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private ServiceTracker processorTracker(BundleContext context) {
-		ServiceTracker t = new ServiceTracker(context,
-				CommandProcessor.class.getName(), null) {
-
-			@Override
-			public Object addingService(ServiceReference reference) {
-				CommandProcessor processor = (CommandProcessor) super
-						.addingService(reference);
-				startShell(context, processor);
-				return processor;
-			}
-
-			@Override
-			public void removedService(ServiceReference reference,
-					Object service) {
-				if (thread != null) {
-					thread.interrupt();
-				}
-				super.removedService(reference, service);
-			}
-		};
-
-		return t;
-	}
-
-	private void startShell(BundleContext context, CommandProcessor processor) {
-		Set<Entry<String, String>> entrySet = this.commandMap.entrySet();
-		Map<String, String> map = new LinkedHashMap<String, String>();
-		for (Entry<String, String> entry : entrySet) {
-			InputStream in = System.in;
-			PrintStream err = System.err;
-
-			Path file = null;
-			try {
-				file = Files.createTempFile("system", "out");
-				PrintStream out = new PrintStream(file.toFile());
-
-				CommandSession session = processor.createSession(in, out, err);
-				session.execute("type " + entry.getKey());
-				out.append("\nHelp:\n");
-				session.execute("help " + entry.getKey());
-
-				String help = new String(Files.readAllBytes(file));
-				map.put(entry.getKey(), help);
-
-			} catch (Exception e) {
-				map.put(entry.getKey(), e.getMessage());
-			} finally {
-				if (file != null) {
-					file.toFile().delete();
-				}
-			}
-		}
-		synchronized (this.commandMap) {
-			this.commandMap.putAll(map);
-		}
-
-	}
 
 }

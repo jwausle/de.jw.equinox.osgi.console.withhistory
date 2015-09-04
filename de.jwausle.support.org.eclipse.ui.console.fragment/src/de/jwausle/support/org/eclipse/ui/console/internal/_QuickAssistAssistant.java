@@ -48,7 +48,8 @@ public class _QuickAssistAssistant implements _CompletionProposalGetter {
 		});
 		return list.toArray(new ICompletionProposal[list.size()]);
 	}
-
+	private boolean visible = false;
+	
 	private QuickAssistAssistant assistant = null;
 	private _CompletionProposalGetter getter = null;
 	private String filter = null;
@@ -107,10 +108,19 @@ public class _QuickAssistAssistant implements _CompletionProposalGetter {
 		this.getter = proposalGetter;
 		this.writer = commandWriter;
 		this.assistant.showPossibleQuickAssists();
+		this.visible = true;
 	}
 
 	public ICompletionProposal[] getCompletionProposal(String filter,
 			CommandWriter writer) {
 		return this.getter.getCompletionProposal(filter, writer);
+	}
+
+	public boolean isVisible() {
+		return visible;
+	}
+	
+	public void setVisible(boolean newVisible){
+		this.visible = newVisible;
 	}
 }
