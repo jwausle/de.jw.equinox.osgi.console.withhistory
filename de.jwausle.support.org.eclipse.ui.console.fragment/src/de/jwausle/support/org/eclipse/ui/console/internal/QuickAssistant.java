@@ -30,7 +30,7 @@ public class QuickAssistant implements ProposalGetter {
 	}
 
 	public static ICompletionProposal[] newICompletionProposals(
-			Map<String, String> commandMap, final CommandWriter writer) {
+			Map<String, String> commandMap, final CommandWriteCallback writer) {
 		List<ICompletionProposal> list = new LinkedList<ICompletionProposal>();
 		Set<Entry<String, String>> entrySet = commandMap.entrySet();
 		for (final Entry<String, String> entry : entrySet) {
@@ -51,7 +51,7 @@ public class QuickAssistant implements ProposalGetter {
 	private QuickAssistAssistant assistant = null;
 	private ProposalGetter getter = null;
 	private String filter = null;
-	private CommandWriter writer = null;
+	private CommandWriteCallback writer = null;
 
 	public QuickAssistant() {
 		assistant = new QuickAssistAssistant();
@@ -101,7 +101,7 @@ public class QuickAssistant implements ProposalGetter {
 		};
 	}
 
-	public void show(ProposalGetter proposalGetter, String filter, CommandWriter commandWriter) {
+	public void show(ProposalGetter proposalGetter, String filter, CommandWriteCallback commandWriter) {
 		this.filter = filter;
 		this.getter = proposalGetter;
 		this.writer = commandWriter;
@@ -110,7 +110,7 @@ public class QuickAssistant implements ProposalGetter {
 	}
 
 	public ICompletionProposal[] getCompletionProposal(String filter,
-			CommandWriter writer) {
+			CommandWriteCallback writer) {
 		return this.getter.getCompletionProposal(filter, writer);
 	}
 

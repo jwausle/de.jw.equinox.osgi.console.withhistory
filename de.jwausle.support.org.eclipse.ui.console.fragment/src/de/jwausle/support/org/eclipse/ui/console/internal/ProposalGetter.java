@@ -4,5 +4,5 @@ import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 public interface ProposalGetter {
 		
-		public ICompletionProposal[] getCompletionProposal(String filter, CommandWriter writer);
+		public ICompletionProposal[] getCompletionProposal(String filter, CommandWriteCallback writer);
 }

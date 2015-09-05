@@ -4,20 +4,17 @@ import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.custom.StyledTextContent;
 import org.eclipse.swt.graphics.Point;
 
+/**
+ * Wrapper to handle command line token an d replacements.
+ * 
+ * @author winter
+ *
+ */
 public class StyledTextHandle {
-	public static boolean isTabOrNonSpaceBreak(char c) {
-		return ignore(c);
-	}
-
-	public static boolean ignore(char c) {
-		boolean nonBreakSpace = isNonBreakSpace(c);
-		boolean tab = isTab(c);
-		boolean tabOrNonBreakSpace = nonBreakSpace || tab;
-		return tabOrNonBreakSpace;
-	}
-
 	public static final String OSGI = "osgi>";
+
 	private StyledText styledText;
+
 	private String linestart;
 
 	public StyledTextHandle(StyledText text) {
@@ -29,25 +26,19 @@ public class StyledTextHandle {
 		this.linestart = linestart;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getTokenBeforeCursor() {
 		String precender = new StyledTextSelectionHandle(styledText)
 				.getPrecenderTrimmed();
 		return precender;
 	}
 
-	public static boolean isSpace(char c) {
-		return c == ' ';
-	}
-
-	public static boolean isTab(char c) {
-		return c == '\t'/* non break space */;
-	}
-
-	public static boolean isNonBreakSpace(char c) {
-		boolean nonBreakSpace = c == '\u00A0';
-		return nonBreakSpace;
-	}
-
+	/**
+	 * @return get command after 'linestart=osgi>' or "".
+	 */
 	public String getCommandLine() {
 		String commandLine = getLine();
 
@@ -57,8 +48,21 @@ public class StyledTextHandle {
 		return commandLine;
 	}
 
+	/**
+	 * Replace the 'match' with the 'replacement' dependend where the
+	 * cursor/selection is.
+	 * 
+	 * @param match
+	 *            not null match token.
+	 * @param replacement
+	 *            not null token.
+	 */
 	public void replace(String match, String replacement) {
-		StyledTextSelectionHandle selection2 = new StyledTextSelectionHandle(styledText);
+		if (replacement == null)
+			return;
+
+		StyledTextSelectionHandle selection2 = new StyledTextSelectionHandle(
+				styledText);
 		int start2 = selection2.getStart();
 		int length2 = selection2.getLenght();
 
@@ -90,17 +94,11 @@ public class StyledTextHandle {
 			// ignore
 		}
 
-		if (isTab(c) || isNonBreakSpace(c))
+		if (KeyHandles.isTab(c) || KeyHandles.isNonBreakSpace(c))
 			length++;
 
-		// this.styledText.setSelection(new Point(start, start + length -1));
-		// this.styledText.setWordWrap(true);
-		// this.styledText.setBlockSelection(false);
-		// this.styledText.insert(replacement);
 		StyledTextContent content = this.styledText.getContent();
 		content.replaceTextRange(start, length, replacement);
-		System.err.println("Replaced " + line + " with " + getLine());
-		// this.styledText.replaceTextRange(start, length, replacement);
 	}
 
 	private String getLine() {
@@ -110,73 +108,33 @@ public class StyledTextHandle {
 	}
 
 	/**
-	 * Append the command-string to styledText area (setText()). <br />
-	 * <br />
-	 * If command startsWith prefix <br />
-	 * Then remove prefix before append.
+	 * Replace the hole present command line <br />
+	 * - 'osgi> [any text]' <br />
+	 * to <br />
+	 * - 'osgi> [line]'
 	 * 
-	 * @param command
-	 * @param prefix
+	 * @param line
 	 */
-	public void appendText(String command, String prefix) {
-		String _prefix = prefix;
-		if (prefix == null)
-			_prefix = "";
-
-		Point point = calculatePoint(prefix);
-
-		String _command = command;
-		if (_command.startsWith(_prefix)) {
-			_command = _command.replaceFirst(prefix, "");
-		}
-		this.styledText.setText(_command);
-	}
-
-	private Point calculatePoint(String prefix) {
-		int lineIndex = styledText.getLineCount() - 1;
-
-		String line = styledText.getLine(lineIndex);
-
-		int lineOffest = styledText.getOffsetAtLine(lineIndex);
-
-		int findPrefix = line.lastIndexOf(prefix);
-		if (findPrefix == -1)
-			return null;
-
-		Point point = new Point(styledText.getCharCount() - 1,
-				styledText.getCharCount() - 1);
-		return point;
-	}
-
-	public void appendText(String command) {
-		styledText.setText(command);
-	}
-
 	public void replaceLine(String line) {
-		if ("false".isEmpty()) {
-			Point linePoint = new Point(styledText.getOffsetAtLine(styledText
-					.getLineCount() - 1), styledText.getCharCount());
-			try {
-				styledText.getContent().replaceTextRange(linePoint.x,
-						linePoint.y - linePoint.x - 1, OSGI + " " + line);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-
 		int end = this.styledText.getContent().getCharCount();
 		int start = this.styledText
 				.getOffsetAtLine(styledText.getLineCount() - 1);
 
 		// delete last command in console.
 		try {
-			this.styledText.getContent().replaceTextRange(start, end - start, OSGI + " ");
+			this.styledText.getContent().replaceTextRange(start, end - start,
+					OSGI + " ");
 		} catch (Exception e) {
 			// ignore exception
 		}
 		this.styledText.setText(line);
 	}
 
+	/**
+	 * Try find first line who starts with 'linestart' from bottom to top.
+	 * 
+	 * @return command without 'linestart=osgi>' or ""
+	 */
 	public String getLastCommandLine() {
 		String commandLine = getCommandLine();
 		if (!commandLine.isEmpty())
@@ -197,5 +155,17 @@ public class StyledTextHandle {
 			return "";
 
 		return commandLine.replace(this.linestart, "").trim();
+	}
+
+	public String getCommandName() {
+		String line = getCommandLine();
+		if (line == null)
+			return "";
+		if (line.isEmpty())
+			return "";
+		int indexOf = line.indexOf(' ');
+		if (indexOf == -1)
+			return line;
+		return line.substring(0, indexOf);
 	}
 }

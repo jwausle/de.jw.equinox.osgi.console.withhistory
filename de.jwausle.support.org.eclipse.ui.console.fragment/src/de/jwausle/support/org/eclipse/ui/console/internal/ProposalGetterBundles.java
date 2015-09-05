@@ -57,7 +57,7 @@ public class ProposalGetterBundles implements ProposalGetter {
 	}
 
 	public ICompletionProposal[] getCompletionProposal(String filter,
-			CommandWriter writer) {
+			CommandWriteCallback writer) {
 		ICompletionProposal[] _return;
 		if (filter == null)
 			_return = QuickAssistant.newICompletionProposals(bundleMap,

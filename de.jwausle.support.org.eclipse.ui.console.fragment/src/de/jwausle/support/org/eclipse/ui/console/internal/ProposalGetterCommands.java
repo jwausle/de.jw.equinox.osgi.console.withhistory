@@ -21,6 +21,7 @@ import org.osgi.util.tracker.ServiceTracker;
 
 public class ProposalGetterCommands implements ProposalGetter {
 	private Map<String, String> commandMap = new LinkedHashMap<String, String>();
+	private CommandProcessor processor = null;
 
 	public ProposalGetterCommands() {
 		this(FrameworkUtil.getBundle(ProposalGetterCommands.class)
@@ -42,20 +43,20 @@ public class ProposalGetterCommands implements ProposalGetter {
 	}
 
 	public ICompletionProposal[] getCompletionProposal(String filter,
-			CommandWriter writer) {
+			CommandWriteCallback writer) {
 		ICompletionProposal[] _return;
 		if (filter == null)
-			_return = QuickAssistant.newICompletionProposals(commandMap,
-					writer);
+			_return = QuickAssistant
+					.newICompletionProposals(commandMap, writer);
 		else if (filter.isEmpty())
-			_return = QuickAssistant.newICompletionProposals(commandMap,
-					writer);
+			_return = QuickAssistant
+					.newICompletionProposals(commandMap, writer);
 		else {
 			Set<Entry<String, String>> entrySet = commandMap.entrySet();
 			Map<String, String> commandMap2 = new LinkedHashMap<String, String>();
 			for (Entry<String, String> entry : entrySet) {
-				String command = QuickAssistant
-						.commandWithoutScope(entry.getKey());
+				String command = QuickAssistant.commandWithoutScope(entry
+						.getKey());
 				// System.err.println("===> " + command + "," + filter);
 				if (!command.startsWith(filter))
 					continue;
@@ -63,11 +64,12 @@ public class ProposalGetterCommands implements ProposalGetter {
 				commandMap2.put(entry.getKey(), entry.getValue());
 			}
 			System.err.println("===> filtered map: " + commandMap2.keySet());
-			_return = QuickAssistant.newICompletionProposals(
-					commandMap2, writer);
+			_return = QuickAssistant.newICompletionProposals(commandMap2,
+					writer);
 		}
-		System.err.printf("===> callback cmd-proposals: %s/%s for filter=´%s´\n", _return.length,
-				commandMap.size(), filter.trim());
+		System.err.printf(
+				"===> callback cmd-proposals: %s/%s for filter=´%s´\n",
+				_return.length, commandMap.size(), filter.trim());
 		return _return;
 	}
 
@@ -88,14 +90,19 @@ public class ProposalGetterCommands implements ProposalGetter {
 				Map<String, String> commands = new LinkedHashMap<String, String>();
 
 				if (scope != null && function != null) {
+
 					if (function.getClass().isArray()) {
 						for (Object f : ((Object[]) function)) {
-							commands.put(scope + ":" + f.toString(),
-									"no help for " + f.toString());
+							String cmd = scope + ":" + f.toString();
+							String help = getHelp(cmd);
+						
+							commands.put(cmd, help);
 						}
 					} else {
-						commands.put(scope + ":" + function.toString(),
-								"no help for " + function.toString());
+						String cmd = scope + ":" + function.toString();
+						String help = getHelp(cmd);
+						
+						commands.put(cmd, help);
 					}
 					commandMap.putAll(commands);
 					return commands;
@@ -137,15 +144,17 @@ public class ProposalGetterCommands implements ProposalGetter {
 
 			@Override
 			public Object addingService(ServiceReference reference) {
-				CommandProcessor processor = (CommandProcessor) super
+				ProposalGetterCommands.this.processor = (CommandProcessor) super
 						.addingService(reference);
-				startShell(context, processor);
-				return processor;
+
+				helps(context, ProposalGetterCommands.this.processor);
+				return ProposalGetterCommands.this.processor;
 			}
 
 			@Override
 			public void removedService(ServiceReference reference,
 					Object service) {
+				ProposalGetterCommands.this.processor = null;
 				if (thread != null) {
 					thread.interrupt();
 				}
@@ -156,37 +165,56 @@ public class ProposalGetterCommands implements ProposalGetter {
 		return t;
 	}
 
-	private void startShell(BundleContext context, CommandProcessor processor) {
+	private void helps(BundleContext context, CommandProcessor processor) {
 		Set<Entry<String, String>> entrySet = this.commandMap.entrySet();
 		Map<String, String> map = new LinkedHashMap<String, String>();
 		for (Entry<String, String> entry : entrySet) {
-			InputStream in = System.in;
-			PrintStream err = System.err;
-
-			Path file = null;
-			try {
-				file = Files.createTempFile("system", "out");
-				PrintStream out = new PrintStream(file.toFile());
-
-				CommandSession session = processor.createSession(in, out, err);
-				session.execute("type " + entry.getKey());
-				out.append("\nHelp:\n");
-				session.execute("help " + entry.getKey());
-
-				String help = new String(Files.readAllBytes(file));
-				map.put(entry.getKey(), help);
-
-			} catch (Exception e) {
-				map.put(entry.getKey(), e.getMessage());
-			} finally {
-				if (file != null) {
-					file.toFile().delete();
-				}
-			}
+			String help = null;
+			help = help(processor, entry);
+			map.put(entry.getKey(), help);
 		}
 		synchronized (this.commandMap) {
 			this.commandMap.putAll(map);
 		}
 
+	}
+
+	private String help(CommandProcessor processor, Entry<String, String> entry) {
+		String key = entry.getKey();
+
+		return help(processor, key);
+	}
+
+	private String help(CommandProcessor processor, String key) {
+		String help;
+		InputStream in = System.in;
+		PrintStream err = System.err;
+
+		Path file = null;
+		try {
+			file = Files.createTempFile("system", "out");
+			PrintStream out = new PrintStream(file.toFile());
+
+			CommandSession session = processor.createSession(in, out, err);
+			session.execute("type " + key);
+			out.append("\nHelp:\n");
+			session.execute("help " + key);
+
+			help = new String(Files.readAllBytes(file));
+
+		} catch (Exception e) {
+			help = e.getMessage();
+		} finally {
+			if (file != null) {
+				file.toFile().delete();
+			}
+		}
+		return help;
+	}
+
+	private String getHelp(String cmd) {
+		if (this.processor == null)
+			return "no help for " + cmd;
+		return help(processor, cmd);
 	}
 }

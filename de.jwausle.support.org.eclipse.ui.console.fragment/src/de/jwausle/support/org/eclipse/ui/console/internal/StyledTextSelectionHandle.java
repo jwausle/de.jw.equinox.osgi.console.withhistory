@@ -3,6 +3,12 @@ package de.jwausle.support.org.eclipse.ui.console.internal;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Point;
 
+/**
+ * Wrapper to get access to {@link StyledText}/selection.
+ * 
+ * @author winter
+ *
+ */
 class StyledTextSelectionHandle {
 
 	private StyledText styledText2;
@@ -57,7 +63,7 @@ class StyledTextSelectionHandle {
 			// ignore
 		}
 
-		if (StyledTextHandle.isTabOrNonSpaceBreak(c))
+		if (KeyHandles.isTabOrNonSpaceBreak(c))
 			length++;
 
 		return length;
@@ -67,7 +73,7 @@ class StyledTextSelectionHandle {
 		String precender = getPrecenderTrimmed();
 		return precender.length();
 	}
-	
+
 	public String getPrecenderTrimmed() {
 		String precender = getPrecender(true);
 		return precender;
@@ -88,9 +94,9 @@ class StyledTextSelectionHandle {
 		StringBuffer buffer = new StringBuffer();
 		char[] charArray = reverse.toString().toCharArray();
 		for (char c : charArray) {
-			if (ignore && StyledTextHandle.isTabOrNonSpaceBreak(c))
+			if (ignore && KeyHandles.isTabOrNonSpaceBreak(c))
 				continue;
-			if (StyledTextHandle.isSpace(c)) {
+			if (KeyHandles.isSpace(c)) {
 				return buffer.reverse().toString();
 			}
 			buffer.append(c);

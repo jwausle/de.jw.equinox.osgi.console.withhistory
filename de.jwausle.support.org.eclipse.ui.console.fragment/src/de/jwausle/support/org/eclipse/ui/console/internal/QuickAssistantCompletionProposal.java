@@ -9,10 +9,10 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 
 class QuickAssistantCompletionProposal implements ICompletionProposal {
-	private final CommandWriter writer;
+	private final CommandWriteCallback writer;
 	private final Entry<String, String> entry;
 
-	QuickAssistantCompletionProposal(CommandWriter writer,
+	QuickAssistantCompletionProposal(CommandWriteCallback writer,
 			Entry<String, String> entry) {
 		this.writer = writer;
 		this.entry = entry;
