@@ -9,14 +9,5 @@
          <enablement></enablement>
       </consolePageParticipant>   
    </extension>
-
-   <extension
-         point="org.eclipse.ui.console.consolePageParticipants">
-      <consolePageParticipant
-            class="de.jwausle.support.org.eclipse.ui.console.internal.IOConsolePageParticipantWithLineWrapp"
-            id="de.jwausle.support.org.eclipse.ui.console.internal.IOConsolePageParticipantWithLineWrapp">
-         <enablement></enablement>
-      </consolePageParticipant>   
-   </extension>
    
 </fragment>

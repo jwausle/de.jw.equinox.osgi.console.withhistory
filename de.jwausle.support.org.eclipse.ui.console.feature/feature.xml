@@ -2,7 +2,7 @@
 <feature
       id="de.jw.support.org.eclipse.pde.ui.feature"
       label="IOConsole with history Feature"
-      version="2.1.0.qualifier">
+      version="3.0.0.qualifier">
 
    <description url="https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory/blob/master/README.md">
       Enhance Host OSGi Console with a command history (arrow up/down
@@ -107,7 +107,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
          arch="x86,x86_64"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="3.0.0.qualifier"
          fragment="true"
          unpack="false"/>
 

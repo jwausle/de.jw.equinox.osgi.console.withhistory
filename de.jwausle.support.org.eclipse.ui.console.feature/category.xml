@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <category-def name="Host OSGi Console history" label="Host OSGi Console history">
+      <description>
+         History support for &apos;Host OSGi Console&apos;.
+      </description>
+   </category-def>
+</site>
