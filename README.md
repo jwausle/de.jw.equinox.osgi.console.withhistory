@@ -10,7 +10,7 @@ Featured TextConsole enable/disable LineWrapping via command ('linewrap -enable'
 - update-site: 
 
 ```
-https://github.com/jwausle/de.jwausle.support.org.eclipse.ui.console/raw/master/de.jwausle.support.org.eclipse.ui.console.updatesite/update-site/2.1.0
+https://github.com/jwausle/de.jwausle.support.org.eclipse.ui.console/raw/master/de.jwausle.support.org.eclipse.ui.console.updatesite/update-site/3.0.0
 ```
 
 - after install on mac 'eclipse -clean' start requiered 
@@ -20,7 +20,7 @@ OR
 ```
 download: https://github.com/jwausle/de.jwausle.support.org.eclipse.ui.console/archive/master.zip
 unzip: master.zip
-eclipse: install as local-update site 'file:/.../de.jw.equinox.osgi.console.withhistory/de.jw.support.org.eclipse.pde.ui.updatesite'
+eclipse: install as local-update site 'file:/.../de.jw.equinox.osgi.console.withhistory/de.jw.support.org.eclipse.pde.ui.updatesite/updatesite/3.0.0'
 eclipse: restart 
 ```
 
