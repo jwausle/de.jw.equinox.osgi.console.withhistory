@@ -6,7 +6,7 @@ Featured IOConsole with history via keys ( 'ARROW_UP' , 'ARROW_DOWN').
 Featured TextConsole enable/disable LineWrapping via command ('enableLineWrapping' (default), 'disableLineWrapping')
 
 
-## HOWTO-install:
+## Installation:
 - update-site: 
 
 ```
@@ -24,56 +24,31 @@ eclipse: install as local-update site 'file:/.../de.jw.equinox.osgi.console.with
 eclipse: restart 
 ```
 
-![show console/select-first-arrow-down-from-console-toolbar and find 'Host OSGiConsoleWithHistory' beside 'Host OSGiConsole'](https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory/raw/master/img/screenshot-successful-installation2.png)
+## Features
 
-## HOWTO use:
+**[Ctrl]+[Space]**
+> ![Screenshot-ctrl-space.png](https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory/raw/master/img/Screenshot-ctrl-space.png)
 
-- open Console (Host OSGi Console)
-- edit command into IOConsole 'return'
-- arrow-up  -> get last command (or nothing) 
-- arrow-down  -> get next command (or nothing) 
+**[Alt]+[Space]**
+> ![Screenshot-alt-space.png](https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory/raw/master/img/Screenshot-alt-space.png)
 
-Sample: 
+**[Arrow Up]** 
+> iterate backward through the history
 
-```
-start by (1)
-osgi> disableLineWrapping
-... show (2)
-osgi> ss org.eclipse.equinox
-... show (3)
-osgi> enableLineWrapping
-... show (4)
-```
-
-![workflow01to03](https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory/raw/master/img/osgiConsole01bis03.png)
------
-
-```
-osgi> ss org.eclipse.equinox (or 2x ARROW_UP)
-... show (5)
-osgi> disableLineWrapping (or 4x ARROW_UP)
-... show (6)
-osgi> enableLineWrapping (or 3x ARROW_UP)
-... show (1)
-```
-
-![workflow01to03](https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory/raw/master/img/osgiConsole04bis06.png)
-
-Tested
-- for 'Host OSGi Console'
-- for 'Bndtools Process Console' : http://bndtools.org/
-
-## HOWTO extend:
-
-- use multiple -Dioconsole.history.pattern.*='pattern'
-- I parse for System.properties with prefix 'ioconsole.history.pattern'
-- 'pattern' : normal java.util.RegExp
-  - group(1) will interprete as command
-  - sample-pattern: 'osgi>(.*)(\n[^\n]|\r[^\r])' for 'Host OSGi Console'
-  - sample-pattern-match: 'osgi> ss | grep de.jwausle [return]'
+**[Arrow Down]** 
+> iterate forward through the history
 
 
-## HOWTO-contribute
+## Commands
+
+**[linewrap]**
+> ![Screenshot-linewrap.png](https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory/raw/master/img/Screenshot-linewrap.png)
+
+**[history]**
+> ![Screenshot-history.png](https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory/raw/master/img/Screenshot-history.png)
+
+
+## Contribute
 - contact me: jan.winter.leipzig+git@gmail.com
 
 ```
