@@ -101,4 +101,13 @@ public class KeyHandle {
 			return true;
 		return false;
 	}
+
+	public boolean isEsc() {
+		if (ctrl || alt)
+			return false;
+
+		boolean isTAB = keycode == SWT.ESC || keycodeInt == 27 || character == SWT.ESC; 
+		return isTAB;
+
+	}
 }

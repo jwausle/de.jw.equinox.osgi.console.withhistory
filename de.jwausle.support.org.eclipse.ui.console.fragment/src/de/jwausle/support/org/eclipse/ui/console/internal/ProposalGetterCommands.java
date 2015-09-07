@@ -197,7 +197,7 @@ public class ProposalGetterCommands implements ProposalGetter {
 
 			CommandSession session = processor.createSession(in, out, err);
 			session.execute("type " + key);
-			out.append("\nHelp:\n");
+			out.append("\n===== Help ====\n");
 			session.execute("help " + key);
 
 			help = new String(Files.readAllBytes(file));

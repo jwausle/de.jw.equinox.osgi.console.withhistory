@@ -118,7 +118,11 @@ public class QuickAssistant implements ProposalGetter {
 		return visible;
 	}
 	
-	public void setVisible(boolean newVisible){
+	private void setVisible(boolean newVisible){
 		this.visible = newVisible;
+	}
+
+	public void hide() {
+		setVisible(false);
 	}
 }

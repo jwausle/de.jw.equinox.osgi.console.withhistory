@@ -3,7 +3,11 @@ package de.jwausle.support.org.eclipse.ui.console.internal;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
-
+/**
+ * The key event handler.
+ * @author winter
+ *
+ */
 public class IOConsoleListener implements KeyListener, CommandWriteCallback {
 
 	private ProposalGetterBundles bundleTracker;
@@ -62,6 +66,9 @@ public class IOConsoleListener implements KeyListener, CommandWriteCallback {
 			sth.replaceLine(next);
 		} else if (!visible && key.isReturn()) {
 			this.history.add(lastcommand);
+		} else if (key.isEsc()) {
+			System.err.printf("ESC catched: `%s` `%s`\n" , e.keyCode , e.character);
+			this.quickAssist.hide();
 		}
 
 	}
@@ -85,7 +92,7 @@ public class IOConsoleListener implements KeyListener, CommandWriteCallback {
 
 		sth.replace(filter, command);
 
-		this.quickAssist.setVisible(false);
+		this.quickAssist.hide();
 	}
 
 }
