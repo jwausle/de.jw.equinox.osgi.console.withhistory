@@ -49,11 +49,36 @@ eclipse: restart
 
 
 ## Contribute
-- contact me: jan.winter.leipzig+git@gmail.com
+
+download https://wiki.eclipse.org/Eclipse_Installer (oomph)
 
 ```
-git clone https://github.com/jwausle/de.jwausle.support.org.eclipse.ui.console.git
+unzip+start Eclipse_Installer
 ```
+
+setup 'Eclipse-IDE' (next)
+
+... TODO screenshot
+
+edit '.eclipse/org.eclipse.oomph.setup/setups/com.github.projects.setup'
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<setup:Project
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:setup="http://www.eclipse.org/oomph/setup/1.0"
+    name="user.project"
+    label="&lt;User>">
+  <project href="https://github.com/jwausle/de.jwausle.support.org.eclipse.ui.console/raw/master/de.jwausle.support.org.eclipse.ui.console.oomph/oomph-dev.setup#/"/>
+  <description>A container project for local user projects that are virtual members of the Github.com project catalog</description>
+</setup:Project>
+```
+
+setup 'Eclispe workspace'
+
+... TODO screenshot
+
 
 
 **Bundle-info**: de.jwausle.support.org.eclipse.ui.console.fragment
