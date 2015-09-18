@@ -9,6 +9,9 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 
 class QuickAssistantCompletionProposal implements ICompletionProposal {
+	private final Logger log = Logger
+			.getLogger(QuickAssistantCompletionProposal.class);
+
 	private final CommandWriteCallback writer;
 	private final Entry<String, String> entry;
 
@@ -19,9 +22,6 @@ class QuickAssistantCompletionProposal implements ICompletionProposal {
 	}
 
 	public Point getSelection(IDocument document) {
-		// System.err.println("==> GetSelection(): " +
-		// entry.getKey() );
-		// return new Point(0, 0);
 		return null;
 	}
 
@@ -43,8 +43,7 @@ class QuickAssistantCompletionProposal implements ICompletionProposal {
 	}
 
 	public void apply(IDocument document) {
-		System.err.println("==> Apply to document: "
-				+ entry.getKey());
+		log.info("==> Apply to document: " + entry.getKey());
 		String key = entry.getKey();
 		String commandWithoutScope = QuickAssistant.commandWithoutScope(key);
 		writer.write(commandWithoutScope);

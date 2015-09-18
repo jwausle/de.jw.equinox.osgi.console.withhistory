@@ -7,7 +7,7 @@ import org.eclipse.swt.widgets.Event;
 
 public class KeyHandle {
 
-//	private Event event;
+	// private Event event;
 	private char keycode;
 	private char character;
 	private boolean ctrl;
@@ -15,7 +15,7 @@ public class KeyHandle {
 	private int keycodeInt;
 
 	public KeyHandle(Event e) {
-//		this.event = e;
+		// this.event = e;
 		this.keycode = (char) e.keyCode;
 		this.character = e.character;
 		this.ctrl = e.stateMask == SWT.CTRL;
@@ -106,8 +106,16 @@ public class KeyHandle {
 		if (ctrl || alt)
 			return false;
 
-		boolean isTAB = keycode == SWT.ESC || keycodeInt == 27 || character == SWT.ESC; 
+		boolean isTAB = keycode == SWT.ESC || keycodeInt == 27
+				|| character == SWT.ESC;
 		return isTAB;
 
+	}
+
+	public boolean isCtrlE() {
+		if (ctrl && (character == 'e' || keycode == 'e')) {
+			return true;
+		}
+		return false;
 	}
 }

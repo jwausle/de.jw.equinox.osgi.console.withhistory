@@ -20,6 +20,7 @@ import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 
 public class ProposalGetterCommands implements ProposalGetter {
+	private final Logger log = Logger.getLogger(ProposalGetterCommands.class);
 	private Map<String, String> commandMap = new LinkedHashMap<String, String>();
 	private CommandProcessor processor = null;
 
@@ -38,7 +39,7 @@ public class ProposalGetterCommands implements ProposalGetter {
 			ServiceTracker processorTracker = processorTracker(bundleContext);
 			processorTracker.open();
 		} catch (InvalidSyntaxException e) {
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 	}
 
@@ -63,12 +64,11 @@ public class ProposalGetterCommands implements ProposalGetter {
 
 				commandMap2.put(entry.getKey(), entry.getValue());
 			}
-			System.err.println("===> filtered map: " + commandMap2.keySet());
+			log.info("===> filtered map: " + commandMap2.keySet());
 			_return = QuickAssistant.newICompletionProposals(commandMap2,
 					writer);
 		}
-		System.err.printf(
-				"===> callback cmd-proposals: %s/%s for filter=´%s´\n",
+		log.info("===> callback cmd-proposals: {0}/{1} for filter=´{2}´",
 				_return.length, commandMap.size(), filter.trim());
 		return _return;
 	}
@@ -95,13 +95,13 @@ public class ProposalGetterCommands implements ProposalGetter {
 						for (Object f : ((Object[]) function)) {
 							String cmd = scope + ":" + f.toString();
 							String help = getHelp(cmd);
-						
+
 							commands.put(cmd, help);
 						}
 					} else {
 						String cmd = scope + ":" + function.toString();
 						String help = getHelp(cmd);
-						
+
 						commands.put(cmd, help);
 					}
 					commandMap.putAll(commands);

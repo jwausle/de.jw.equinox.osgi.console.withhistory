@@ -16,7 +16,7 @@ import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.BundleTracker;
 
 public class ProposalGetterBundles implements ProposalGetter {
-
+	private final Logger log = Logger.getLogger(ProposalGetterBundles.class);
 	private Map<String, String> bundleMap = Collections
 			.synchronizedMap(new LinkedHashMap<String, String>());
 
@@ -75,11 +75,11 @@ public class ProposalGetterBundles implements ProposalGetter {
 
 				map.put(entry.getKey(), entry.getValue());
 			}
-			System.err.println("===> filtered map: " + map.keySet());
+			log.info("===> filtered map: " + map.keySet());
 			_return = QuickAssistant
 					.newICompletionProposals(map, writer);
 		}
-		System.err.printf("===> callback bundle-proposals: %s/%s for filter=´%s´\n", _return.length,bundleMap.size(), filter.trim());
+		log.info("===> callback bundle-proposals: %s/%s for filter=´%s´\n", _return.length,bundleMap.size(), filter.trim());
 		return _return;
 	}
 

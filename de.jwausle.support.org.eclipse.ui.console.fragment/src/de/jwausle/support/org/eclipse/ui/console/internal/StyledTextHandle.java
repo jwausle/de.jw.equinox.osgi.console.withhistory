@@ -13,6 +13,8 @@ import org.eclipse.swt.graphics.Point;
 public class StyledTextHandle {
 	public static final String OSGI = "osgi>";
 
+	private Logger log = Logger.getLogger(StyledTextHandle.class);
+
 	private StyledText styledText;
 
 	private String linestart;
@@ -64,41 +66,57 @@ public class StyledTextHandle {
 		StyledTextSelectionHandle selection2 = new StyledTextSelectionHandle(
 				styledText);
 		int start2 = selection2.getStart();
-		int length2 = selection2.getLenght();
+		int length2 = selection2.getLength();
+
+		StyledTextCommandLine cmdline = new StyledTextCommandLine(OSGI,
+				styledText);
+		int start = cmdline.getStart();
+		int length = cmdline.getLength();
+
+		log.debug("selection({0},{1}) vs. cmdline({2},{3}) ", start2, length2,
+				start, length);
+		start2 = start;
+		length2 = length;
 
 		if ("".isEmpty()) {
+			log.info("Replace string: `{0}` -> `{1}`", selection2, replacement);
 			styledText.getContent().replaceTextRange(start2, length2,
 					replacement);
+			styledText.setSelection(start2 + replacement.length());
 			return;
 		}
 
-		Point selection = styledText.getSelection();
-		if (selection.x == selection.y) {
-			styledText.getContent().replaceTextRange(selection.x,
-					selection.y - selection.x, replacement);
-			return;
-		}
-
-		String line = getLine();
-		Point linePoint = new Point(styledText.getOffsetAtLine(styledText
-				.getLineCount() - 1), styledText.getCharCount());
-
-		int startLastMatch = line.lastIndexOf(match);
-		int start = linePoint.x + startLastMatch;
-		int length = match.length();
-
-		char c = 0;
-		try {
-			c = line.toCharArray()[startLastMatch + length];
-		} catch (Exception e) {
-			// ignore
-		}
-
-		if (KeyHandles.isTab(c) || KeyHandles.isNonBreakSpace(c))
-			length++;
-
-		StyledTextContent content = this.styledText.getContent();
-		content.replaceTextRange(start, length, replacement);
+//		Point selection = styledText.getSelection();
+//		if (selection.x == selection.y) {
+//			log.info("Replace selection: " + selection);
+//			styledText.getContent().replaceTextRange(selection.x,
+//					selection.y - selection.x, replacement);
+//			styledText.setSelection(selection.x + replacement.length());
+//			return;
+//		}
+//
+//		String line = getLine();
+//		Point linePoint = new Point(styledText.getOffsetAtLine(styledText
+//				.getLineCount() - 1), styledText.getCharCount());
+//		log.info("Replace line {0} on point {1}", line, linePoint);
+//		int startLastMatch = line.lastIndexOf(match);
+//		int start = linePoint.x + startLastMatch;
+//		int length = match.length();
+//
+//		char c = 0;
+//		try {
+//			c = line.toCharArray()[startLastMatch + length];
+//		} catch (Exception e) {
+//			// ignore
+//		}
+//
+//		if (KeyHandles.isTab(c) || KeyHandles.isNonBreakSpace(c))
+//			length++;
+//
+//		StyledTextContent content = this.styledText.getContent();
+//		content.replaceTextRange(start, length, replacement);
+//
+//		styledText.setSelection(start + replacement.length());
 	}
 
 	private String getLine() {
@@ -116,18 +134,20 @@ public class StyledTextHandle {
 	 * @param line
 	 */
 	public void replaceLine(String line) {
-		int end = this.styledText.getContent().getCharCount();
-		int start = this.styledText
-				.getOffsetAtLine(styledText.getLineCount() - 1);
+		StyledTextCommandLine cmdline = new StyledTextCommandLine(
+				this.linestart, styledText);
 
-		// delete last command in console.
-		try {
-			this.styledText.getContent().replaceTextRange(start, end - start,
-					OSGI + " ");
-		} catch (Exception e) {
-			// ignore exception
-		}
-		this.styledText.setText(line);
+		int start = cmdline.getStart();
+		int length = cmdline.getLength();
+		String actual = cmdline.toString();
+
+		log.info("replacing line: Start={0} -> end={1}: `{2}` -> `{3}`", start,
+				length, actual, line);
+		String spaceLine = " " + line.trim();
+		this.styledText.getContent().replaceTextRange(start, length, spaceLine);
+		log.info("replaced.");
+
+		this.styledText.setSelection(this.styledText.getCharCount());
 	}
 
 	/**
@@ -137,8 +157,10 @@ public class StyledTextHandle {
 	 */
 	public String getLastCommandLine() {
 		String commandLine = getCommandLine();
-		if (!commandLine.isEmpty())
-			return commandLine;
+		if (!commandLine.isEmpty()) {
+			log.debug("Command line is empty. Return default ''.");
+			return "";
+		}
 
 		int lineIndex = styledText.getLineCount();
 		commandLine = null;
@@ -151,10 +173,14 @@ public class StyledTextHandle {
 			lineIndex--;
 
 		}
-		if (commandLine == null)
+		if (commandLine == null) {
+			log.debug("Command line not exist. Return default ''.");
 			return "";
+		}
 
-		return commandLine.replace(this.linestart, "").trim();
+		String commandline = commandLine.replace(this.linestart, "").trim();
+		log.debug("Command line found: Return '" + commandLine + "'.");
+		return commandline;
 	}
 
 	public String getCommandName() {

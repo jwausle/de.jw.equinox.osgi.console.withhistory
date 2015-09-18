@@ -9,6 +9,7 @@ import java.util.Stack;
 
 import org.apache.felix.service.command.Descriptor;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.widgets.Display;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
@@ -21,6 +22,8 @@ import org.osgi.framework.FrameworkUtil;
  */
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class IOConsoleHistory {
+	private final Logger log = Logger.getLogger(IOConsoleHistory.class);
+
 	private Stack history = new Stack();
 
 	private ListIterator session = null;
@@ -66,9 +69,10 @@ public class IOConsoleHistory {
 		try {
 			next = session.next();
 		} catch (Exception e) {
-			// ignore
+			log.error("Session next() exception: {0}", e.getMessage());
 		}
 		String string = next == null ? "" : next.toString();
+		log.debug("Next command: {0}", next);
 		return string;
 	}
 
@@ -81,9 +85,10 @@ public class IOConsoleHistory {
 		try {
 			previous = session.previous();
 		} catch (Exception e) {
-			// ignore
+			log.error("Session previous() exception: {0}", e.getMessage());
 		}
 		String string = previous == null ? "" : previous.toString();
+		log.debug("Previous command: {0}", previous);
 		return string;
 	}
 
@@ -129,21 +134,34 @@ public class IOConsoleHistory {
 		if (context == null)
 			return;
 
-		Hashtable<String, String> cmdDesc = new Hashtable<String, String>();
-		cmdDesc.put("osgi.command.function", "history");
+		Hashtable<String, Object> cmdDesc = new Hashtable<String, Object>();
+		cmdDesc.put("osgi.command.function", new String[] { "history", "cls" });
 		cmdDesc.put("osgi.command.scope", "jwausle");
 		context.registerService(IOConsoleHistory.class, this, cmdDesc);
 	}
+
+	public void cls() {
+		Display.getDefault().asyncExec(new Runnable() {
+
+			public void run() {
+				styledText.getContent().replaceTextRange(0,
+						styledText.getCharCount(), "");
+				log.debug("Content after `cls`: `{0}`.",
+						styledText.getTextRange(0, styledText.getCharCount()));
+			}
+		});
+	}
+
 	@Descriptor("[--show-all/--clear]")
 	public String history(@Descriptor("...\n\t"//
 			+ "[]        \t: show short history.\n\t"//
 			+ "--show-all\t: show complete history.\n\t"//
 			+ "--clear   \t: clear history.\n\t"//
 			+ "--help    \t: show help.\n\t"//
-			) String... args) {
+	) String... args) {
 		if (args.length == 0)
 			return this.toString();
-		
+
 		if ("--show-all".equals(args[0]))
 			return this.history.toString();
 		if ("--clear".equals(args[0])) {
@@ -154,7 +172,7 @@ public class IOConsoleHistory {
 			this.history.clear();
 			return "Use 'history [--show-all/--clear]'";
 		}
-		
+
 		return "Unknow args: " + Arrays.toString(args)
 				+ ". Use 'history [--show-all/--clear]'";
 	}

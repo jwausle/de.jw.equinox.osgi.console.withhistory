@@ -10,6 +10,7 @@ import org.eclipse.swt.graphics.Point;
  *
  */
 class StyledTextSelectionHandle {
+	private final Logger log = Logger.getLogger(StyledTextSelectionHandle.class);
 
 	private StyledText styledText2;
 
@@ -49,7 +50,7 @@ class StyledTextSelectionHandle {
 		return getPrecender(false).length();
 	}
 
-	public int getLenght() {
+	public int getLength() {
 		if (hasSelection())
 			return styledText2.getSelectionCount();
 
@@ -113,6 +114,20 @@ class StyledTextSelectionHandle {
 		int lineCount = styledText2.getLineCount();
 		String line = styledText2.getLine(lineCount - 1);
 		return line;
+	}
+
+	@Override
+	public String toString() {
+		int start = getStart();
+		int length = getLength();
+		
+		try {
+			return styledText2.getTextRange(start, length);
+		} catch (Exception e) {
+			log.debug("toString error: " + e.getMessage());
+			return super.toString();
+		}
+		
 	}
 
 }

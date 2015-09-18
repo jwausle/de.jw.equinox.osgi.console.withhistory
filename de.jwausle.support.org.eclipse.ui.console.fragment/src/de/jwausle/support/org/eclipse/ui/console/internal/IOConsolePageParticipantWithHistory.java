@@ -65,6 +65,7 @@ public class IOConsolePageParticipantWithHistory implements
 		viewer.configure(configuration);
 
 		registerGogoCommand();
+		Logger.registerGogoCommand();
 	}
 
 	public void dispose() {
