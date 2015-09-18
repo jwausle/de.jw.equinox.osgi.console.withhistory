@@ -76,7 +76,7 @@
         name="${scope.project.label}"
         activeRepositoryList="${eclipse.target.platform}">
       <requirement
-          name="de.jw.support.org.eclipse.pde.ui.feature.feature.group"/>
+          name="de.jwausle.support.org.eclipse.ui.console.feature.feature.group"/>
       <requirement
           name="org.eclipse.sdk.feature.group"/>
       <sourceLocator
