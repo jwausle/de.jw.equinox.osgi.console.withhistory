@@ -118,4 +118,11 @@ public class KeyHandle {
 		}
 		return false;
 	}
+
+	public boolean isCtrlR() {
+		if (ctrl && (character == 'r' || keycode == 'r')) {
+			return true;
+		}
+		return false;
+	}
 }

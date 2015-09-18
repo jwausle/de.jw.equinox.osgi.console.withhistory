@@ -4,14 +4,16 @@ import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.widgets.Display;
+
 /**
  * The key event handler.
+ * 
  * @author winter
  *
  */
 public class IOConsoleListener implements KeyListener, CommandWriteCallback {
 	private final Logger log = Logger.getLogger(IOConsoleListener.class);
-	
+
 	private ProposalGetterBundles bundleTracker;
 	private ProposalGetterCommands cmdTracker;
 
@@ -33,32 +35,35 @@ public class IOConsoleListener implements KeyListener, CommandWriteCallback {
 
 		if (key.isReturn()) {
 			lastcommand = new StyledTextHandle(styledText).getLastCommandLine();
-			log.debug("Catched return=true with last-command: `{0}`.", lastcommand);
+			log.debug("Catched return=true with last-command: `{0}`.",
+					lastcommand);
 		}
 	}
 
 	public void keyReleased(KeyEvent e) {
 		KeyHandle key = new KeyHandle(e);
-		
+
 		if (key.ignore()) {
 			log.debug("Ignore key={0}", key);
 			return;
 		}
-		
-		if(key.isCtrlE()){
+
+		if (key.isCtrlE()) {
 			Display.getDefault().asyncExec(new Runnable() {
 
 				public void run() {
 					styledText.setSelection(styledText.getCharCount());
 				}
 			});
-			log.debug("====> {0}", new StyledTextCommandLine("osgi> ", styledText));
+			log.debug("====> {0}", new StyledTextCommandLine("osgi> ",
+					styledText));
 			return;
 		}
 
 		StyledTextHandle sth = new StyledTextHandle(this.styledText);
 		if (key.isCtrlSpace() || key.isTab()) {
-			log.debug("Catched ctrl+space={0} or tab={1}", key.isCtrlSpace(),key.isTab());
+			log.debug("Catched ctrl+space={0} or tab={1}", key.isCtrlSpace(),
+					key.isTab());
 			String tokenBeforeCursor = sth.getTokenBeforeCursor();
 			String lastWord = tokenBeforeCursor;
 			this.quickAssist.show(this.cmdTracker, lastWord, this);
@@ -70,6 +75,17 @@ public class IOConsoleListener implements KeyListener, CommandWriteCallback {
 			log.debug("Catched alt+space=true");
 			String lastWord = sth.getTokenBeforeCursor();
 			this.quickAssist.show(this.bundleTracker, lastWord, this);
+			e.doit = false;
+			return;
+		}
+
+		if (key.isCtrlR()) {
+			log.debug("Catched ctrl+r=true");
+			
+			ProposalGetterCommandHistroy history = new ProposalGetterCommandHistroy(
+					this.history);
+			
+			this.quickAssist.show(history, "", this);
 			e.doit = false;
 			return;
 		}
@@ -103,7 +119,7 @@ public class IOConsoleListener implements KeyListener, CommandWriteCallback {
 	public void setContentAssist(QuickAssistant assistant) {
 		this.quickAssist = assistant;
 	}
-	
+
 	public void write(String command) {
 		StyledTextHandle sth = new StyledTextHandle(this.styledText);
 

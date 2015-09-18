@@ -1,10 +1,12 @@
 package de.jwausle.support.org.eclipse.ui.console.internal;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.Stack;
 
 import org.apache.felix.service.command.Descriptor;
@@ -24,7 +26,7 @@ import org.osgi.framework.FrameworkUtil;
 public class IOConsoleHistory {
 	private final Logger log = Logger.getLogger(IOConsoleHistory.class);
 
-	private Stack history = new Stack();
+	private Stack<String> history = new Stack();
 
 	private ListIterator session = null;
 
@@ -194,6 +196,12 @@ public class IOConsoleHistory {
 			return "[" + first + ", ..(" + history.size() + ").. ,  " + last
 					+ "]";
 		}
+	}
+
+	public List<String> reverse() {
+		LinkedList list = new LinkedList(history);
+		Collections.reverse(list);
+		return list;
 	}
 
 }
