@@ -30,6 +30,15 @@ eclipse: install as local-update site 'file:/.../de.jw.equinox.osgi.console.with
 eclipse: restart 
 ```
 
+### Requierements
+
+```
+Require-Bundle: org.eclipse.equinox.console;bundle-version="1.1.0",
+ org.eclipse.pde.ui;bundle-version="3.8.100",
+ org.apache.felix.gogo.runtime;bundle-version="0.10.0",
+ org.apache.felix.gogo.command;bundle-version="0.10.0",
+ org.apache.felix.gogo.shell;bundle-version="0.10.0"
+```
 ## Features
 
 **[Ctrl]+[Space]** ... quickfix for osgi-commands
