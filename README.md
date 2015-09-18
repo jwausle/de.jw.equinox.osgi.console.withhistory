@@ -29,6 +29,10 @@ eclipse: restart
 **[Ctrl]+[Space]** ... quickfix for osgi-commands
 > ![Screenshot-ctrl-space.png](https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory/raw/master/img/Screenshot-ctrl-space.png)
 
+**[Ctrl]+[R]** ... quickfix for osgi-commands
+> ![screenshot-ctrl-R.png](https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory/raw/master/img/screenshot-ctrl-r.png)
+
+
 **[Alt]+[Space]** ... quickfix for installed bundles
 > ![Screenshot-alt-space.png](https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory/raw/master/img/Screenshot-alt-space.png)
 
@@ -61,7 +65,8 @@ unzip+start Eclipse_Installer
 
 setup 'Eclipse-IDE' (next)
 
-... TODO screenshot
+> ![screenshot-oomph-01.png](https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory/raw/master/img/screenshot-oomph-01.png)
+
 
 edit '.eclipse/org.eclipse.oomph.setup/setups/com.github.projects.setup'
 
