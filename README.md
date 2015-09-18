@@ -7,10 +7,16 @@ Featured TextConsole enable/disable LineWrapping via command ('linewrap -enable'
 
 
 ## Installation:
-- update-site: 
+- update-site (latest): 
 
 ```
-https://github.com/jwausle/de.jwausle.support.org.eclipse.ui.console/raw/master/de.jwausle.support.org.eclipse.ui.console.updatesite/update-site/3.0.0
+https://github.com/jwausle/de.jwausle.support.org.eclipse.ui.console/raw/master/de.jwausle.support.org.eclipse.ui.console.updatesite/update-site/latest
+```
+
+- update-site (3.0.1): 
+
+```
+https://github.com/jwausle/de.jwausle.support.org.eclipse.ui.console/raw/master/de.jwausle.support.org.eclipse.ui.console.updatesite/update-site/3.0.1
 ```
 
 - after install on mac 'eclipse -clean' start requiered 
