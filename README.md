@@ -26,10 +26,10 @@ eclipse: restart
 
 ## Features
 
-**[Ctrl]+[Space]**
+**[Ctrl]+[Space]** ... quickfix for osgi-commands
 > ![Screenshot-ctrl-space.png](https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory/raw/master/img/Screenshot-ctrl-space.png)
 
-**[Alt]+[Space]**
+**[Alt]+[Space]** ... quickfix for installed bundles
 > ![Screenshot-alt-space.png](https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory/raw/master/img/Screenshot-alt-space.png)
 
 **[Arrow Up]** 
@@ -47,6 +47,9 @@ eclipse: restart
 **[history]**
 > ![Screenshot-history.png](https://github.com/jwausle/de.jw.equinox.osgi.console.withhistory/raw/master/img/Screenshot-history.png)
 
+**[cls]** ... clear console
+
+**[logger] ... set log-level (default=OFF)
 
 ## Contribute
 
