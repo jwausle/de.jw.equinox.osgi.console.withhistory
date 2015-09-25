@@ -102,7 +102,7 @@ class StyledTextSelectionHandle {
 			}
 			buffer.append(c);
 		}
-		return buffer.toString();
+		return buffer.reverse().toString();
 	}
 
 	private char charBefore(int x) {

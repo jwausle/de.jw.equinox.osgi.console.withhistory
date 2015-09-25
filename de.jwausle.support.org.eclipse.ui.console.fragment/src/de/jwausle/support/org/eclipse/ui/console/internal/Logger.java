@@ -170,7 +170,9 @@ public class Logger {
 	}
 
 	private static void syserr(String string, Object... args) {
-		System.err.println(format(string, args));
+		String msg = format(string, args);
+//		java.util.logging.Logger.getLogger("").severe(msg);
+		System.err.println(msg);
 	}
 
 	public static void registerGogoCommand() {
@@ -188,7 +190,7 @@ public class Logger {
 		context.registerService(Logger.class, new Logger(Logger.class), cmdDesc);
 
 		// set default log.level=INFO (1=ERROR, 2=WARN, 3=IFO, 4=DEBUG)
-		config.put("log.level", 4);
+		config.put("log.level", 1);
 	}
 
 	@Descriptor("[<logger>=<level> | --verbose | --silent | --clear | --show-all | --logger]")

@@ -3,6 +3,7 @@ package de.jwausle.support.org.eclipse.ui.console.internal;
 import java.util.Hashtable;
 
 import org.apache.felix.service.command.Descriptor;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Display;
@@ -30,8 +31,10 @@ import org.osgi.framework.FrameworkUtil;
 @SuppressWarnings("rawtypes")
 public class IOConsolePageParticipantWithHistory implements
 		IConsolePageParticipant {
-
 	public static final String IOCONSOLE_HISTORY_PATTERN = "ioconsole.history.pattern";
+
+	private final Logger log = Logger
+			.getLogger(IOConsolePageParticipantWithHistory.class);
 
 	private IOConsolePage ioConsolePage;
 
@@ -66,6 +69,8 @@ public class IOConsolePageParticipantWithHistory implements
 
 		registerGogoCommand();
 		Logger.registerGogoCommand();
+
+		log.info("Init {0}", this);
 	}
 
 	public void dispose() {
@@ -73,6 +78,7 @@ public class IOConsolePageParticipantWithHistory implements
 		this.bundleTracker = null;
 		this.commandTracker = null;
 		this.assistant = null;
+		log.info("Dispose {0}", this);
 	}
 
 	public void activated() {
@@ -81,16 +87,20 @@ public class IOConsolePageParticipantWithHistory implements
 		}
 
 		textWiget = (StyledText) this.ioConsolePage.getControl();
+		IDocument document = this.ioConsolePage.getViewer().getDocument();
 
-		IOConsoleListener listener = new IOConsoleListener(textWiget);
+		IOConsoleListener listener = new IOConsoleListener(textWiget, document);
 		listener.setCommandTracker(this.commandTracker);
 		listener.setBundleTracker(this.bundleTracker);
 		listener.setContentAssist(this.assistant);
 
 		textWiget.addKeyListener(listener);
+		log.info("Activated {0}", this);
 	}
 
 	public void deactivated() {
+		log.info("Deactivated {0}", this);
+		
 	}
 
 	public void registerGogoCommand() {
@@ -102,8 +112,8 @@ public class IOConsolePageParticipantWithHistory implements
 		if (context == null)
 			return;
 
-		Hashtable<String, String> cmdDesc = new Hashtable<String, String>();
-		cmdDesc.put("osgi.command.function", "linewrap");
+		Hashtable<String, Object> cmdDesc = new Hashtable<String, Object>();
+		cmdDesc.put("osgi.command.function", new String[] { "linewrap" });
 		cmdDesc.put("osgi.command.scope", "jwausle");
 		context.registerService(IOConsolePageParticipantWithHistory.class,
 				this, cmdDesc);

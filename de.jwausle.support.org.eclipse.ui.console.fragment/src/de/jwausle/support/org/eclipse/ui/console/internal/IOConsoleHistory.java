@@ -6,7 +6,6 @@ import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Map;
 import java.util.Stack;
 
 import org.apache.felix.service.command.Descriptor;
@@ -71,7 +70,7 @@ public class IOConsoleHistory {
 		try {
 			next = session.next();
 		} catch (Exception e) {
-			log.error("Session next() exception: {0}", e.getMessage());
+			log.warn("Session next() exception: {0}", e.getMessage());
 		}
 		String string = next == null ? "" : next.toString();
 		log.debug("Next command: {0}", next);
@@ -87,7 +86,7 @@ public class IOConsoleHistory {
 		try {
 			previous = session.previous();
 		} catch (Exception e) {
-			log.error("Session previous() exception: {0}", e.getMessage());
+			log.warn("Session previous() exception: {0}", e.getMessage());
 		}
 		String string = previous == null ? "" : previous.toString();
 		log.debug("Previous command: {0}", previous);
@@ -137,7 +136,8 @@ public class IOConsoleHistory {
 			return;
 
 		Hashtable<String, Object> cmdDesc = new Hashtable<String, Object>();
-		cmdDesc.put("osgi.command.function", new String[] { "history", "cls" });
+		cmdDesc.put("osgi.command.function", new String[] { "history", "cls",
+				"clear" });
 		cmdDesc.put("osgi.command.scope", "jwausle");
 		context.registerService(IOConsoleHistory.class, this, cmdDesc);
 	}
@@ -152,6 +152,10 @@ public class IOConsoleHistory {
 						styledText.getTextRange(0, styledText.getCharCount()));
 			}
 		});
+	}
+
+	public void clear() {
+		cls();
 	}
 
 	@Descriptor("[--show-all/--clear]")

@@ -1,9 +1,10 @@
 package de.jwausle.support.org.eclipse.ui.console.internal;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -176,7 +177,6 @@ public class ProposalGetterCommands implements ProposalGetter {
 		synchronized (this.commandMap) {
 			this.commandMap.putAll(map);
 		}
-
 	}
 
 	private String help(CommandProcessor processor, Entry<String, String> entry) {
@@ -185,29 +185,32 @@ public class ProposalGetterCommands implements ProposalGetter {
 		return help(processor, key);
 	}
 
-	private String help(CommandProcessor processor, String key) {
+	private String help(CommandProcessor processor, String key) {		
+		if ("".isEmpty())
+			return "";
 		String help;
 		InputStream in = System.in;
-		PrintStream err = System.err;
 
-		Path file = null;
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		PrintStream out = new PrintStream(stream);
+
+		CommandSession session = processor.createSession(in, out, out);
 		try {
-			file = Files.createTempFile("system", "out");
-			PrintStream out = new PrintStream(file.toFile());
-
-			CommandSession session = processor.createSession(in, out, err);
 			session.execute("type " + key);
 			out.append("\n===== Help ====\n");
 			session.execute("help " + key);
 
-			help = new String(Files.readAllBytes(file));
-
+			help = stream.toString();
 		} catch (Exception e) {
-			help = e.getMessage();
+			help = e.getMessage() + "\n\n" + Arrays.toString(e.getStackTrace());
 		} finally {
-			if (file != null) {
-				file.toFile().delete();
+			session.close();
+			try {
+				stream.close();
+			} catch (IOException e) {
+				// ignore
 			}
+			out.close();
 		}
 		return help;
 	}

@@ -1,7 +1,8 @@
 package de.jwausle.support.org.eclipse.ui.console.internal;
 
+import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.custom.StyledTextContent;
 import org.eclipse.swt.graphics.Point;
 
 /**
@@ -11,21 +12,24 @@ import org.eclipse.swt.graphics.Point;
  *
  */
 public class StyledTextHandle {
-	public static final String OSGI = "osgi>";
+	public static final String OSGI = "osgi> ";
 
-	private Logger log = Logger.getLogger(StyledTextHandle.class);
+	private final Logger log = Logger.getLogger(StyledTextHandle.class);
 
-	private StyledText styledText;
+	private final StyledText styledText;
+
+	private final IDocument document;
 
 	private String linestart;
 
-	public StyledTextHandle(StyledText text) {
-		this(text, OSGI);
+	public StyledTextHandle(StyledText text, IDocument document) {
+		this.styledText = text;
+		this.document = document;
+		this.linestart = OSGI;
 	}
 
-	public StyledTextHandle(StyledText text, String linestart) {
-		this.styledText = text;
-		this.linestart = linestart;
+	public StyledTextHandle(StyledText styledText2) {
+		this(styledText2, null);
 	}
 
 	/**
@@ -33,8 +37,9 @@ public class StyledTextHandle {
 	 * @return
 	 */
 	public String getTokenBeforeCursor() {
-		String precender = new StyledTextSelectionHandle(styledText)
-				.getPrecenderTrimmed();
+		StyledTextSelectionHandle selection = new StyledTextSelectionHandle(
+				styledText);
+		String precender = selection.getPrecenderTrimmed();
 		return precender;
 	}
 
@@ -60,63 +65,39 @@ public class StyledTextHandle {
 	 *            not null token.
 	 */
 	public void replace(String match, String replacement) {
+		if (document == null)
+			return;
 		if (replacement == null)
 			return;
 
-		StyledTextSelectionHandle selection2 = new StyledTextSelectionHandle(
-				styledText);
-		int start2 = selection2.getStart();
-		int length2 = selection2.getLength();
+		int lineCount = styledText.getLineCount();
+		int offsetAtLine = styledText.getOffsetAtLine(lineCount - 1);
 
-		StyledTextCommandLine cmdline = new StyledTextCommandLine(OSGI,
-				styledText);
-		int start = cmdline.getStart();
-		int length = cmdline.getLength();
-
-		log.debug("selection({0},{1}) vs. cmdline({2},{3}) ", start2, length2,
-				start, length);
-		start2 = start;
-		length2 = length;
-
-		if ("".isEmpty()) {
-			log.info("Replace string: `{0}` -> `{1}`", selection2, replacement);
-			styledText.getContent().replaceTextRange(start2, length2,
-					replacement);
-			styledText.setSelection(start2 + replacement.length());
-			return;
+		Point selection = styledText.getSelection();
+		if (offsetAtLine + 6 <= selection.x && selection.x != selection.y) {
+			try {
+				document.replace(selection.x, selection.y - selection.x,
+						replacement);
+				styledText.setSelection(selection.x + replacement.length());
+			} catch (BadLocationException e) {
+				log.error(e.getMessage());
+			}
+		} else if (offsetAtLine + 6 <= selection.x) {
+			try {
+				document.replace(selection.x - match.length(),
+						0 + match.length(), replacement);
+				styledText.setSelection(selection.x + replacement.length());
+			} catch (BadLocationException e) {
+				log.error(e.getMessage());
+			}
+		} else {
+			try {
+				document.replace(styledText.getCharCount(), 0, replacement);
+				styledText.setSelection(styledText.getCharCount());
+			} catch (BadLocationException e) {
+				log.error(e.getMessage());
+			}
 		}
-
-//		Point selection = styledText.getSelection();
-//		if (selection.x == selection.y) {
-//			log.info("Replace selection: " + selection);
-//			styledText.getContent().replaceTextRange(selection.x,
-//					selection.y - selection.x, replacement);
-//			styledText.setSelection(selection.x + replacement.length());
-//			return;
-//		}
-//
-//		String line = getLine();
-//		Point linePoint = new Point(styledText.getOffsetAtLine(styledText
-//				.getLineCount() - 1), styledText.getCharCount());
-//		log.info("Replace line {0} on point {1}", line, linePoint);
-//		int startLastMatch = line.lastIndexOf(match);
-//		int start = linePoint.x + startLastMatch;
-//		int length = match.length();
-//
-//		char c = 0;
-//		try {
-//			c = line.toCharArray()[startLastMatch + length];
-//		} catch (Exception e) {
-//			// ignore
-//		}
-//
-//		if (KeyHandles.isTab(c) || KeyHandles.isNonBreakSpace(c))
-//			length++;
-//
-//		StyledTextContent content = this.styledText.getContent();
-//		content.replaceTextRange(start, length, replacement);
-//
-//		styledText.setSelection(start + replacement.length());
 	}
 
 	private String getLine() {
@@ -134,20 +115,23 @@ public class StyledTextHandle {
 	 * @param line
 	 */
 	public void replaceLine(String line) {
-		StyledTextCommandLine cmdline = new StyledTextCommandLine(
-				this.linestart, styledText);
+		if (document == null)
+			return;
 
-		int start = cmdline.getStart();
-		int length = cmdline.getLength();
-		String actual = cmdline.toString();
-
-		log.info("replacing line: Start={0} -> end={1}: `{2}` -> `{3}`", start,
-				length, actual, line);
-		String spaceLine = " " + line.trim();
-		this.styledText.getContent().replaceTextRange(start, length, spaceLine);
-		log.info("replaced.");
-
-		this.styledText.setSelection(this.styledText.getCharCount());
+		int lineIndex = styledText.getLineCount() - 1;
+		String line2 = styledText.getLine(lineIndex);
+		Point selection = styledText.getSelection();
+		log.debug("Selection: {0} ", selection);
+		try {
+			int offsetAtLine = styledText.getOffsetAtLine(lineIndex);
+			if (offsetAtLine == 0) {
+				document.replace(offsetAtLine, line2.length(), "osgi! " + line);
+			} else {
+				document.replace(offsetAtLine + 6, line2.length() - 6, line);
+			}
+		} catch (BadLocationException e1) {
+			e1.printStackTrace();
+		}
 	}
 
 	/**
