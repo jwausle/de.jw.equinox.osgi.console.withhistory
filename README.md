@@ -13,13 +13,11 @@ Featured TextConsole enable/disable LineWrapping via command ('linewrap -enable'
 https://github.com/jwausle/de.jwausle.support.org.eclipse.ui.console/raw/master/de.jwausle.support.org.eclipse.ui.console.updatesite/update-site/latest
 ```
 
-- update-site (3.0.3): 
+- update-site (3.0.2): 
 
 ```
 https://github.com/jwausle/de.jwausle.support.org.eclipse.ui.console/raw/master/de.jwausle.support.org.eclipse.ui.console.updatesite/update-site/3.0.2
 ```
-
-- after install on mac 'eclipse -clean' start requiered 
 
 OR
 
