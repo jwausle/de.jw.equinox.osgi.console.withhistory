@@ -25,5 +25,5 @@
 
 ##[2.0.0]##
 
-... (intial development)
+... (initial development)
 
