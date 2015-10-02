@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Arrays;
+import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -12,6 +13,7 @@ import java.util.Set;
 
 import org.apache.felix.service.command.CommandProcessor;
 import org.apache.felix.service.command.CommandSession;
+import org.apache.felix.service.command.Descriptor;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Filter;
@@ -39,6 +41,8 @@ public class ProposalGetterCommands implements ProposalGetter {
 			@SuppressWarnings("rawtypes")
 			ServiceTracker processorTracker = processorTracker(bundleContext);
 			processorTracker.open();
+			
+			registerGogoCommand(bundleContext);
 		} catch (InvalidSyntaxException e) {
 			log.error(e.getMessage());
 		}
@@ -149,6 +153,7 @@ public class ProposalGetterCommands implements ProposalGetter {
 						.addingService(reference);
 
 				helps(context, ProposalGetterCommands.this.processor);
+				
 				return ProposalGetterCommands.this.processor;
 			}
 
@@ -185,8 +190,8 @@ public class ProposalGetterCommands implements ProposalGetter {
 		return help(processor, key);
 	}
 
-	private String help(CommandProcessor processor, String key) {		
-		if ("".isEmpty())
+	private String help(CommandProcessor processor, String key) {
+		if ("false".isEmpty())
 			return "";
 		String help;
 		InputStream in = System.in;
@@ -219,5 +224,26 @@ public class ProposalGetterCommands implements ProposalGetter {
 		if (this.processor == null)
 			return "no help for " + cmd;
 		return help(processor, cmd);
+	}
+
+	private void registerGogoCommand(BundleContext context) {
+		Hashtable<String, Object> cmdDesc = new Hashtable<String, Object>();
+		cmdDesc.put("osgi.command.function", new String[] { "showhelp" });
+		cmdDesc.put("osgi.command.scope", "jwausle");
+		context.registerService(ProposalGetterCommands.class, this, cmdDesc);
+	}
+
+	@Descriptor(" <command>")
+	public String showhelp(
+			@Descriptor("...\n"
+					+ "Show help of command like [ctrl+space]\n\t"
+					+ "<command>\t: command to show (e.g 'showhelp showhelp')\n")CommandSession session, String command) throws Exception {
+		System.out.println("--------------------------------");		
+		session.execute("help " + command);
+		System.out.println("--------------------------------");
+		
+		CommandProcessor processor = this.processor;
+		String help = help(processor,command);
+		return help;
 	}
 }

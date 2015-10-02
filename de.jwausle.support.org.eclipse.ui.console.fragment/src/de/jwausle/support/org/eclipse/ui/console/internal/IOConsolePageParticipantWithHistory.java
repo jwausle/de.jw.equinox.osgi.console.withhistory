@@ -100,7 +100,7 @@ public class IOConsolePageParticipantWithHistory implements
 
 	public void deactivated() {
 		log.info("Deactivated {0}", this);
-		
+
 	}
 
 	public void registerGogoCommand() {
@@ -113,7 +113,7 @@ public class IOConsolePageParticipantWithHistory implements
 			return;
 
 		Hashtable<String, Object> cmdDesc = new Hashtable<String, Object>();
-		cmdDesc.put("osgi.command.function", new String[] { "linewrap" });
+		cmdDesc.put("osgi.command.function", new String[] { "linewrap"});
 		cmdDesc.put("osgi.command.scope", "jwausle");
 		context.registerService(IOConsolePageParticipantWithHistory.class,
 				this, cmdDesc);
@@ -155,4 +155,5 @@ public class IOConsolePageParticipantWithHistory implements
 		}
 		return "";
 	}
+
 }
